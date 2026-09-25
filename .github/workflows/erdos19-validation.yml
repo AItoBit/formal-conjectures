@@ -1,0 +1,47 @@
+name: Validate Erdos 19 contribution
+on:
+  push:
+    branches: [codex/erdos-19-validation]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Install Lean toolchain manager
+        run: |
+          set -o pipefail
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v1.4.2/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            ~/.cache/mathlib
+            .lake
+          key: erdos19-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: erdos19-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build changed scope with warnings as errors
+        run: lake --wfail build FormalConjecturesForMathlib 'FormalConjectures.ErdosProblems.«19»'
+      - name: Audit supporting theorem axioms
+        run: |
+          cat > AuditErdos19.lean <<'LEAN'
+          import FormalConjectures.ErdosProblems.«19»
+          #print axioms SimpleGraph.EFLConfig.graph_adj
+          #print axioms SimpleGraph.EFLConfig.mem_sharedSet
+          #print axioms SimpleGraph.EFLConfig.le_chromaticNumber
+          #print axioms SimpleGraph.EFLConfig.eq_of_not_shared
+          #print axioms SimpleGraph.EFLConfig.colorable_of_sharedColoring
+          #print axioms SimpleGraph.EFLConfig.card_sharedSet_le
+          #print axioms SimpleGraph.EFLConfig.chromaticNumber_eq_of_le_three
+          #print axioms Erdos19.erdos_19.variants.le_three
+          LEAN
+          lake env lean AuditErdos19.lean | tee axioms.log
+          if grep -E 'sorryAx|ofReduceBool|trustCompiler' axioms.log; then exit 1; fi
+          if grep -En '\b(sorry|axiom|opaque|native_decide|admit)\b' FormalConjecturesForMathlib/Combinatorics/SimpleGraph/ErdosFaberLovasz.lean; then exit 1; fi
+      - name: Check patch whitespace
+        run: git diff --check HEAD~2 HEAD
