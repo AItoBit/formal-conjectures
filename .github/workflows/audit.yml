@@ -1,0 +1,49 @@
+name: Independent pinned Erdos 557 replay
+on:
+  push:
+    branches: [codex/erdos557-audit]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean toolchain manager
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Replay both linked commits and imported proof
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          git clone https://github.com/zhangjun725/erdos557.git proof
+          for sha in c4e0ab13027f8bb50defade11cf8a53c7b8b0ba9 828ad6fdb5d0f1a72b8dcd812f4c91c285570ff6; do
+            cd proof
+            git checkout --detach "$sha"
+            lake exe cache get
+            test "$(git -C .lake/packages/Erdos548 rev-parse HEAD)" = 82ffb751f3d37768927df9239ed08439bbe0dd09
+            test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = 8f9d9cff6bd728b17a24e163c9402775d9e6a365
+            test ! -e .lake/build/lib/lean/Erdos557/Basic.olean
+            test ! -e .lake/packages/Erdos548/.lake/build/lib/lean/Erdos548/Resolutions/Erdos548_192usd_21h.olean
+            lake env lean --version | tee "../evidence/$sha-version.txt"
+            sha256sum Erdos557/*.lean .lake/packages/Erdos548/Erdos548/Resolutions/Erdos548_192usd_21h.lean | tee "../evidence/$sha-sha256.txt"
+            if rg -n '\b(sorry|admit|axiom|unsafe|native_decide)\b' Erdos557 .lake/packages/Erdos548/Erdos548/Resolutions/Erdos548_192usd_21h.lean; then
+              exit 1
+            fi
+            lake --wfail build Erdos557 | tee "../evidence/$sha-build.txt"
+            lake env lean -DwarningAsError=true scripts/check_axioms.lean | tee "../evidence/$sha-axioms.txt"
+            printf 'import Erdos548.Resolutions.Erdos548_192usd_21h\n#print axioms Erdos548.erdos_548\n#print axioms Erdos548.tree_free_edge_bound\n' > ImportedAxioms.lean
+            lake env lean -DwarningAsError=true ImportedAxioms.lean | tee "../evidence/$sha-imported-axioms.txt"
+            if grep -E 'sorryAx|ofReduceBool|trustCompiler' "../evidence/$sha-axioms.txt" "../evidence/$sha-imported-axioms.txt"; then exit 1; fi
+            cd ..
+            mv proof/.lake/build "evidence/$sha-build-artifacts"
+            mv proof/.lake/packages/Erdos548/.lake/build "evidence/$sha-imported-build-artifacts"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos557-independent-replay
+          path: evidence/*.txt
