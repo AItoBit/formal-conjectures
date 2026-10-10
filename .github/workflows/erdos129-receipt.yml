@@ -42,21 +42,25 @@ jobs:
         run: |
           set -o pipefail
           lake update 2>&1 | tee /tmp/receipt/setup.log
+          cp lake-manifest.json /tmp/receipt/external-manifest.json
+          lean --version | tee /tmp/receipt/lean-version.txt
+          git -C .lake/packages/mathlib rev-parse HEAD | tee /tmp/receipt/mathlib-commit.txt
           lake exe cache get 2>&1 | tee /tmp/receipt/cache.log
           lake --wfail build Erdos129 StrictAudit 2>&1 | tee /tmp/receipt/build-axioms.log
           lake env leanchecker -v Erdos129 2>&1 | tee /tmp/receipt/kernel-replay.log
-      - name: Check against exact FC declarations
-        working-directory: /tmp/fc
-        run: |
-          set -o pipefail
-          lake exe cache get 2>&1 | tee /tmp/receipt/fc-cache.log
-          lake --wfail build 'FormalConjectures.ErdosProblems.«129»' Correspondence 2>&1 | tee /tmp/receipt/correspondence.log
       - name: Replay with alternate Lean4Lean kernel
         working-directory: /tmp/external
         run: |
           set -o pipefail
           lake build independent 2>&1 | tee /tmp/receipt/independent-build.log
           lake exe independent 2>&1 | tee /tmp/receipt/independent-replay.log
+      - name: Check against exact FC declarations
+        working-directory: /tmp/fc
+        run: |
+          set -o pipefail
+          cp lake-manifest.json /tmp/receipt/fc-manifest.json
+          lake exe cache get 2>&1 | tee /tmp/receipt/fc-cache.log
+          lake --wfail build 'FormalConjectures.ErdosProblems.«129»' Correspondence 2>&1 | tee /tmp/receipt/correspondence.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
