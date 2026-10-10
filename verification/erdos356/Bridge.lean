@@ -17,7 +17,7 @@ def shift {k : ℕ} (a : Fin k → ℕ) (j : ℕ) : ℤ :=
 
 lemma shift_apply {k : ℕ} (a : Fin k → ℕ) (i : Fin k) :
     shift a (i.val + 1) = (a i : ℤ) := by
-  simp [shift, i.isLt, Nat.add_one_le_iff]
+  simp [shift, i.isLt]
 
 lemma sum_shift {k : ℕ} (a : Fin k → ℕ) (u v : Fin k) :
     (∑ j ∈ Finset.Icc (u.val + 1) (v.val + 1), shift a j) =
@@ -35,13 +35,13 @@ lemma sum_shift {k : ℕ} (a : Fin k → ℕ) (u v : Fin k) :
     simp only [Finset.mem_Icc] at hj
     have h : j - 1 < k := by omega
     refine ⟨⟨j - 1, h⟩, ?_, by omega⟩
-    simp only [Finset.mem_Icc, Fin.le_def]
+    simp only [Finset.mem_Icc, Fin.le_def, Fin.val_mk]
     omega
   · intro i hi
     exact (shift_apply a i).symm
 
 lemma sums_shift {k : ℕ} (a : Fin k → ℕ) :
-    consecutiveSums k (shift a) = (Erdos356.consecutiveSums a).image (fun x => (x : ℤ)) := by
+    consecutiveSums k (shift a) = (Erdos356.consecutiveSums a).image (fun x : ℕ => (x : ℤ)) := by
   ext z
   simp only [consecutiveSums, Erdos356.consecutiveSums, Finset.mem_image,
     Finset.mem_filter, Finset.mem_product, Finset.mem_univ, true_and]
@@ -65,7 +65,7 @@ lemma sums_shift {k : ℕ} (a : Fin k → ℕ) :
 
 lemma card_shift {k : ℕ} (a : Fin k → ℕ) :
     (consecutiveSums k (shift a)).card = (Erdos356.consecutiveSums a).card := by
-  rw [sums_shift, Finset.card_image_of_injective _ Int.natCast_injective]
+  rw [sums_shift, Finset.card_image_of_injective _ (Nat.cast_injective : Function.Injective (fun x : ℕ => (x : ℤ)))]
 
 lemma admissible_shift {n k : ℕ} (a : Fin k → ℕ) (ha : StrictMono a)
     (hb : ∀ i, 1 ≤ a i ∧ a i ≤ n) : IsAdmissible n k (shift a) := by
@@ -73,7 +73,7 @@ lemma admissible_shift {n k : ℕ} (a : Fin k → ℕ) (ha : StrictMono a)
   · intro i hi j hj hij
     simp only [Finset.mem_Icc] at hi hj
     simp only [shift, dif_pos hi, dif_pos hj]
-    exact_mod_cast ha (show (⟨i - 1, by omega⟩ : Fin k) < ⟨j - 1, by omega⟩ from by
+    exact_mod_cast ha (show (⟨i - 1, by omega⟩ : Fin k) < (⟨j - 1, by omega⟩ : Fin k) from by
       change i - 1 < j - 1
       omega)
   · intro i hi
