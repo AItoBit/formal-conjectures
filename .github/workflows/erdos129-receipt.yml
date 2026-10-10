@@ -31,7 +31,7 @@ jobs:
               f.write('\n[[lean_lib]]\nname = "External129"\n\n[[lean_lib]]\nname = "Correspondence"\n')
           with Path('/tmp/external/lakefile.toml').open('a') as f:
               f.write('\n[[require]]\nname = "lean4lean"\ngit = "https://github.com/digama0/lean4lean.git"\nrev = "8223d223ed98661882e95d9d6a7126df7097cd76"\n\n[[lean_lib]]\nname = "StrictAudit"\n\n[[lean_exe]]\nname = "independent"\nroot = "Independent"\n')
-              f.write('\n[[require]]\nname = "batteries"\ngit = "https://github.com/leanprover-community/batteries"\nrev = "v4.33.1"\n')
+              f.write('\n[[require]]\nname = "batteries"\ngit = "https://github.com/leanprover-community/batteries"\nrev = "4488d40d070b9700d4d5a6aa342f0d40c31b2a2d"\n')
           PY
           mkdir -p /tmp/receipt
           git -C /tmp/external rev-parse HEAD | tee /tmp/receipt/external-commit.txt
