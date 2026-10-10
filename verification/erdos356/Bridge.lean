@@ -34,8 +34,10 @@ lemma sum_shift {k : ℕ} (a : Fin k → ℕ) (u v : Fin k) :
   · intro j hj
     simp only [Finset.mem_Icc] at hj
     have h : j - 1 < k := by omega
-    refine ⟨⟨j - 1, h⟩, ?_, by omega⟩
-    simp only [Finset.mem_Icc, Fin.le_def, Fin.val_mk]
+    refine ⟨⟨j - 1, h⟩, ?_, ?_⟩
+    · simp only [Finset.mem_Icc, Fin.le_def]
+      omega
+    change j - 1 + 1 = j
     omega
   · intro i hi
     exact (shift_apply a i).symm
@@ -44,7 +46,7 @@ lemma sums_shift {k : ℕ} (a : Fin k → ℕ) :
     consecutiveSums k (shift a) = (Erdos356.consecutiveSums a).image (fun x : ℕ => (x : ℤ)) := by
   ext z
   simp only [consecutiveSums, Erdos356.consecutiveSums, Finset.mem_image,
-    Finset.mem_filter, Finset.mem_product, Finset.mem_univ, true_and]
+    Finset.mem_filter, Finset.mem_product]
   constructor
   · rintro ⟨⟨u, v⟩, ⟨⟨hu, hv⟩, huv⟩, rfl⟩
     simp only [Finset.mem_Icc] at hu hv
@@ -53,7 +55,8 @@ lemma sums_shift {k : ℕ} (a : Fin k → ℕ) :
     have hU : U.val + 1 = u := by dsimp [U]; omega
     have hV : V.val + 1 = v := by dsimp [V]; omega
     refine ⟨∑ i ∈ Finset.Icc U V, a i, ⟨(U, V), ?_, rfl⟩, ?_⟩
-    · change U.val ≤ V.val
+    · refine ⟨by simp, ?_⟩
+      change U.val ≤ V.val
       dsimp [U, V]
       omega
     · rw [← sum_shift a U V, hU, hV]
@@ -61,7 +64,7 @@ lemma sums_shift {k : ℕ} (a : Fin k → ℕ) :
     refine ⟨(u.val + 1, v.val + 1), ⟨?_, ?_⟩, sum_shift a u v⟩
     · simp only [Finset.mem_Icc]
       constructor <;> constructor <;> omega
-    · exact Nat.add_le_add_right huv 1
+    · exact Nat.add_le_add_right huv.2 1
 
 lemma card_shift {k : ℕ} (a : Fin k → ℕ) :
     (consecutiveSums k (shift a)).card = (Erdos356.consecutiveSums a).card := by
