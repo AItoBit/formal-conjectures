@@ -1,0 +1,79 @@
+name: Audit pinned Erdos 211 proof
+on:
+  push:
+    branches: [codex/erdos211-axiom-audit]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  axioms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.33.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Prepare unchanged pinned sources
+        run: |
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/audit/ErdosProblems"
+          cd "$RUNNER_TEMP/source"
+          git init
+          git remote add origin https://github.com/plby/lean-proofs.git
+          git fetch --depth=1 origin 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          git checkout FETCH_HEAD -- src/latest/ErdosProblems/Erdos211.lean src/latest/Util src/latest/lake-manifest.json
+          cp src/latest/ErdosProblems/Erdos211.lean "$RUNNER_TEMP/audit/ErdosProblems/"
+          cp -r src/latest/Util "$RUNNER_TEMP/audit/"
+          cmp src/latest/ErdosProblems/Erdos211.lean "$RUNNER_TEMP/audit/ErdosProblems/Erdos211.lean"
+          cd "$RUNNER_TEMP/audit"
+          printf '%s\n' 'leanprover/lean4:v4.33.0' > lean-toolchain
+          cat > lakefile.lean <<'LEAN'
+          import Lake
+          open Lake DSL
+          package erdos211_axiom_check where
+            leanOptions := #[
+              ⟨`pp.unicode.fun, true⟩,
+              ⟨`relaxedAutoImplicit, false⟩,
+              ⟨`weak.linter.mathlibStandardSet, true⟩,
+              ⟨`maxSynthPendingDepth, 3⟩
+            ]
+          require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "db584cd6d46c92f209a44c0f1c829460d327499d"
+          lean_lib ErdosProblems
+          lean_lib Util
+          LEAN
+          cat > AxiomAudit.lean <<'LEAN'
+          import ErdosProblems.Erdos211
+          #check Erdos211.erdos_211
+          #print axioms SzemerediTrotter
+          #print axioms Erdos211.richLines_bound_all
+          #print axioms Erdos211.erdos_211
+          LEAN
+      - name: Restore pinned Mathlib
+        run: |
+          cd "$RUNNER_TEMP/audit"
+          lake update
+          lake exe cache get
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = db584cd6d46c92f209a44c0f1c829460d327499d
+          lean --version
+      - name: Build exact theorem and dependencies
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/audit"
+          lake --wfail build ErdosProblems.Erdos211 2>&1 | tee build.log
+      - name: Print transitive axiom closures
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/audit"
+          lake env lean AxiomAudit.lean 2>&1 | tee axioms.log
+      - name: Upload verification receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erdos211-verification
+          path: |
+            ${{ runner.temp }}/audit/build.log
+            ${{ runner.temp }}/audit/axioms.log
+            ${{ runner.temp }}/audit/AxiomAudit.lean
+            ${{ runner.temp }}/audit/lakefile.lean
+            ${{ runner.temp }}/audit/lake-manifest.json
+            ${{ runner.temp }}/audit/lean-toolchain
