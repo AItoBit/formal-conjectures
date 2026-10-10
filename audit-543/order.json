@@ -1,0 +1,33 @@
+{
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "order": [
+    "ErdosProblems.Erdos543.Model",
+    "ErdosProblems.Erdos543.Asymptotics",
+    "ErdosProblems.Erdos543.PrimeSequence",
+    "ErdosProblems.Erdos543.LowRankCount",
+    "ErdosProblems.Erdos543.Incidence",
+    "ErdosProblems.Erdos543.FullRankCount",
+    "ErdosProblems.Erdos543.FiniteProbability",
+    "ErdosProblems.Erdos543.Rank",
+    "ErdosProblems.Erdos543.LinearFibers",
+    "ErdosProblems.Erdos543.Hypercube",
+    "ErdosProblems.Erdos543.LowRankSharp",
+    "ErdosProblems.Erdos543.Moments",
+    "ErdosProblems.Erdos543.MomentBounds",
+    "ErdosProblems.Erdos543.StratifiedMoment",
+    "ErdosProblems.Erdos543.MissedEvents",
+    "ErdosProblems.Erdos543.BonferroniAnalytic",
+    "ErdosProblems.Erdos543.IIDTransfer",
+    "ErdosProblems.Erdos543.RankCountAsymptotics",
+    "ErdosProblems.Erdos543.PoissonAsymptotics",
+    "ErdosProblems.Erdos543.FactorialTail",
+    "ErdosProblems.Erdos543.PoissonSecondMoment",
+    "ErdosProblems.Erdos543.IIDModel",
+    "ErdosProblems.Erdos543.HalfTransfer",
+    "ErdosProblems.Erdos543.FinalLogic",
+    "ErdosProblems.Erdos543.CoreObstruction",
+    "ErdosProblems.Erdos543"
+  ],
+  "lines": 8967,
+  "token_occurrences": {}
+}
