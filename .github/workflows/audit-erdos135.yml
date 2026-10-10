@@ -29,6 +29,8 @@ jobs:
           git fetch --depth=1 origin ffbb65c21afc8a36ace67720f1b0df1c63d26bd1
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = ffbb65c21afc8a36ace67720f1b0df1c63d26bd1
+          git apply --include='BoundedGaps/BoundedGaps/Maynard/PrimeMertens.lean' "$RUNNER_TEMP/source/src/latest/patches/boundedgaps-linter-v4.33.0.patch"
+          git diff -- BoundedGaps/BoundedGaps/Maynard/PrimeMertens.lean | tee "$RUNNER_TEMP/audit/compatibility-patch.log"
           python3 - <<'PY'
           import hashlib, json, os, pathlib, re, shutil
           temp = pathlib.Path(os.environ["RUNNER_TEMP"])
@@ -70,7 +72,8 @@ jobs:
           (audit / "sources.json").write_text(json.dumps(copied, indent=2))
           (audit / "pinned-manifest.json").write_bytes((source / "lake-manifest.json").read_bytes())
           shutil.copyfile(source / "lean-toolchain", audit / "lean-toolchain")
-          print(f"Copied {len(copied)} unchanged source modules: 614 local and 2 BoundedGaps")
+          print(f"Copied {len(copied)} source modules: 614 unchanged local and 2 pinned BoundedGaps")
+          print("Applied the pinned project's prescribed PrimeMertens linter patch (letI -> let)")
           print("Proof SHA-256:", copied["ErdosProblems.Erdos135"]["sha256"])
           PY
           cd "$RUNNER_TEMP/audit"
@@ -130,3 +133,4 @@ jobs:
             ${{ runner.temp }}/audit/lean-toolchain
             ${{ runner.temp }}/audit/lakefile.lean
             ${{ runner.temp }}/audit/AxiomAudit.lean
+            ${{ runner.temp }}/audit/.lake/build/lib/lean
