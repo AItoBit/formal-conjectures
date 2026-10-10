@@ -37,14 +37,6 @@ open Filter SimpleGraph
 
 namespace Erdos553
 
-/-- `R(3,3,n)`: the smallest `m` such that every `3`-colouring of the edges of `K_m` contains a
-monochromatic triangle in one of the first two colours or a monochromatic `K_n` in the third
-colour. -/
-noncomputable def ramsey33 (n : ℕ) : ℕ :=
-  sInf {m | ∀ C : TopEdgeLabeling (Fin m) (Fin 3),
-    ¬ (C.labelGraph 0).CliqueFree 3 ∨ ¬ (C.labelGraph 1).CliqueFree 3 ∨
-      ¬ (C.labelGraph 2).CliqueFree n}
-
 /--
 Let $R(3,3,n)$ denote the smallest integer $m$ such that if we $3$-colour the edges of $K_m$ then
 there is either a monochromatic triangle in one of the first two colours or a monochromatic $K_n$
@@ -59,7 +51,9 @@ $R(3,n) \ll n^2/\log n$).
 This was formalized in Lean by Codex and GPT-5.6 Sol.
 -/
 @[category research solved, AMS 5, formal_proof using lean4 at "https://github.com/plby/lean-proofs/blob/8822f7ddef30fadbd92e1c6ab4ed897af356af5e/src/latest/ErdosProblems/Erdos553.lean#L256"]
-theorem erdos_553 : Tendsto (fun n : ℕ ↦ (ramsey33 n : ℝ) / classicalRamsey 3 n) atTop atTop := by
+theorem erdos_553 :
+    Tendsto (fun n : ℕ ↦ (multicolourRamsey ![3, 3, n] : ℝ) / classicalRamsey 3 n)
+      atTop atTop := by
   sorry
 
 /--
@@ -69,7 +63,8 @@ large $n$.
 -/
 @[category research solved, AMS 5]
 theorem erdos_553.variants.alon_rodl : ∃ c C K : ℝ, 0 < c ∧ 0 < C ∧ ∀ᶠ n : ℕ in atTop,
-    c * n ^ 3 * Real.log n ^ (-K) ≤ ramsey33 n ∧ (ramsey33 n : ℝ) ≤ C * n ^ 3 * Real.log n ^ K := by
+    c * n ^ 3 * Real.log n ^ (-K) ≤ multicolourRamsey ![3, 3, n] ∧
+      (multicolourRamsey ![3, 3, n] : ℝ) ≤ C * n ^ 3 * Real.log n ^ K := by
   sorry
 
 end Erdos553

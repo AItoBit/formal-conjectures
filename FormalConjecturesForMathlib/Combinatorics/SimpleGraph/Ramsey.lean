@@ -17,6 +17,7 @@ module
 
 public import Mathlib.Combinatorics.SimpleGraph.Basic
 public import Mathlib.Combinatorics.SimpleGraph.Copy
+public import Mathlib.Data.Fin.VecNotation
 public import Mathlib.Data.Real.Basic
 public import Mathlib.Data.Set.Card
 public import Mathlib.Order.Lattice.Nat
@@ -38,7 +39,8 @@ The Erdős–Hajnal "exceptional pair" trio of predicates:
 These were introduced for Erdős Problem 596 but are reusable for Problem 595 and other
 Ramsey-type questions; we factor them out per mo271's review.
 
-It also defines the two-colour graph Ramsey number `graphRamsey G H` and the notion of a
+It also defines the multicolour clique Ramsey number `multicolourRamsey`, the two-colour
+graph Ramsey number `graphRamsey G H`, and the notion of a
 **Ramsey size linear** graph `IsRamseySizeLinear G` of Erdős, Faudree, Rousseau and Schelp.
 
 ## References
@@ -48,6 +50,30 @@ It also defines the two-colour graph Ramsey number `graphRamsey G H` and the not
 -/
 
 namespace SimpleGraph
+
+/-- The multicolour Ramsey number $R(s_0, \ldots, s_{k-1})$: the least `m` such that every
+`k`-colouring of the edges of `K_m` contains an `s i`-clique in some colour `i`. -/
+noncomputable def multicolourRamsey {k : ℕ} (s : Fin k → ℕ) : ℕ :=
+  sInf {m | ∀ C : TopEdgeLabeling (Fin m) (Fin k),
+    ¬ ∀ i, (C.labelGraph i).CliqueFree (s i)}
+
+/-- Constant clique sizes give the diagonal multicolour Ramsey number. -/
+theorem multicolourRamsey_const (k n : ℕ) :
+    multicolourRamsey (fun _ : Fin k ↦ n) =
+      sInf {m | ∀ C : TopEdgeLabeling (Fin m) (Fin k), ¬ C.CliqueFree n} := rfl
+
+/-- Three clique sizes give the usual three-colour Ramsey number. -/
+theorem multicolourRamsey_triple (a b c : ℕ) :
+    multicolourRamsey ![a, b, c] =
+      sInf {m | ∀ C : TopEdgeLabeling (Fin m) (Fin 3),
+        ¬ (C.labelGraph 0).CliqueFree a ∨ ¬ (C.labelGraph 1).CliqueFree b ∨
+          ¬ (C.labelGraph 2).CliqueFree c} := by
+  unfold multicolourRamsey
+  congr 1
+  ext m
+  simp only [Set.mem_ofPred_eq, Fin.forall_fin_succ, Matrix.cons_val_zero,
+    Matrix.cons_val_succ, Fin.forall_fin_zero, and_true, not_and_or]
+  rfl
 
 /-- The **finite Ramsey property** for the pair $(G_1, G_2)$: for every $n \geq 1$, there
 exists a $G_1$-free graph `H` on some vertex type in `Type` (universe 0) such that every
