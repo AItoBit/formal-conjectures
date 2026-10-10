@@ -18,6 +18,15 @@ import FormalConjectures.ErdosProblems.«129»
 import External129
 import Lean.Util.CollectAxioms
 
+/-!
+# Erdős 129 proof correspondence receipt
+
+Checks the external proofs against the declarations at Formal Conjectures commit
+`31cf42bb4b2b1206a2b91174349212aaec3c4cc9`.
+The external source is pinned to `06e2f9ba62d7511e3d9ccfd96dcada975b6bd9e1` in
+[erdos-129-lean](https://github.com/AItoBit/erdos-129-lean).
+-/
+
 namespace Erdos129Receipt
 
 theorem two_pow_lt_R (n : ℕ) (hn : 100 ≤ n) : 2 ^ (n / 100) < Erdos129.R n 3 2 := by

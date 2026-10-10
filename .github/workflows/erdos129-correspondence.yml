@@ -1,0 +1,51 @@
+name: Erdős 129 final independent receipt
+on:
+  push:
+    branches: [codex/erdos-129-receipt-final]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  correspondence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retain completed kernel replay receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: erdos129-independent-receipt
+          run-id: 38010728982
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/receipt
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch exact commits and prepare correspondence
+        run: |
+          git clone https://github.com/AItoBit/erdos-129-lean.git /tmp/external
+          git -C /tmp/external checkout 06e2f9ba62d7511e3d9ccfd96dcada975b6bd9e1
+          git clone https://github.com/AItoBit/formal-conjectures.git /tmp/fc
+          git -C /tmp/fc checkout 31cf42bb4b2b1206a2b91174349212aaec3c4cc9
+          cp verification/erdos129/Correspondence.lean /tmp/fc/
+          python3 - <<'PY'
+          from pathlib import Path
+          s = Path('/tmp/external/Erdos129.lean').read_text()
+          Path('/tmp/fc/External129.lean').write_text(s.replace('namespace Erdos129', 'namespace ExternalErdos129').replace('end Erdos129', 'end ExternalErdos129'))
+          with Path('/tmp/fc/lakefile.toml').open('a') as f:
+              f.write('\n[[lean_lib]]\nname = "External129"\n\n[[lean_lib]]\nname = "Correspondence"\n')
+          Path('/tmp/receipt/receipt-provenance.txt').write_text('Kernel replay and external axiom audit: run 38010728982, verifier commit 2a468622437e5134464a357f0e5b103b55b4699f.\nThis run repeats the FC correspondence after adding its missing module docstring.\n')
+          PY
+      - name: Warning-free exact FC correspondence
+        working-directory: /tmp/fc
+        run: |
+          set -o pipefail
+          cp lake-manifest.json /tmp/receipt/fc-manifest.json
+          lake exe cache get 2>&1 | tee /tmp/receipt/fc-cache.log
+          lake --wfail build 'FormalConjectures.ErdosProblems.«129»' Correspondence 2>&1 | tee /tmp/receipt/correspondence.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos129-final-verification-receipt
+          path: /tmp/receipt/*
