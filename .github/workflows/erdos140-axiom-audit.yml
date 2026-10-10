@@ -1,0 +1,58 @@
+name: Audit Erdos 140 axioms
+on:
+  push:
+    branches: [codex/erdos140-axiom-audit]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  axioms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.33.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Prepare unchanged proof sources
+        run: |
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/audit/ErdosProblems"
+          cd "$RUNNER_TEMP/source"
+          git init
+          git remote add origin https://github.com/plby/lean-proofs.git
+          git fetch --depth=1 origin 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          git checkout FETCH_HEAD -- src/latest/ErdosProblems/Erdos140.lean src/latest/ErdosProblems/Erdos140 src/latest/lake-manifest.json
+          cp -r src/latest/ErdosProblems/Erdos140* "$RUNNER_TEMP/audit/ErdosProblems/"
+          cd "$RUNNER_TEMP/audit"
+          printf '%s\n' 'leanprover/lean4:v4.33.0' > lean-toolchain
+          cat > lakefile.lean <<'LEAN'
+          import Lake
+          open Lake DSL
+          package erdos140_axiom_check where
+            leanOptions := #[
+              ⟨`pp.unicode.fun, true⟩,
+              ⟨`relaxedAutoImplicit, false⟩,
+              ⟨`weak.linter.mathlibStandardSet, true⟩,
+              ⟨`maxSynthPendingDepth, 3⟩
+            ]
+          require APAP from git "https://github.com/YaelDillies/apap.git" @ "40a6a348fa3629d2faa0be428b1876e5c05fb6da"
+          require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "db584cd6d46c92f209a44c0f1c829460d327499d"
+          lean_lib ErdosProblems
+          LEAN
+          printf '%s\n' 'import ErdosProblems.Erdos140' '#print axioms Erdos140.erdos_140' > AxiomAudit.lean
+      - name: Restore pinned dependencies
+        run: |
+          cd "$RUNNER_TEMP/audit"
+          lake update
+          lake exe cache get
+          git -C .lake/packages/APAP rev-parse HEAD
+          git -C .lake/packages/mathlib rev-parse HEAD
+          lean --version
+      - name: Build exact endpoint
+        run: |
+          cd "$RUNNER_TEMP/audit"
+          lake build ErdosProblems.Erdos140
+      - name: Print final axioms
+        run: |
+          cd "$RUNNER_TEMP/audit"
+          lake env lean AxiomAudit.lean
