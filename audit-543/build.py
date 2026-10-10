@@ -24,12 +24,14 @@ env['LEAN_PATH']=str(root.resolve())+':'+search
 for module in metadata['order']:
     stem=root/module.replace('.','/')
     print('BUILD',module,flush=True)
-    subprocess.run(['lake','env','lean',str(stem)+'.lean','-o',str(stem)+'.olean'],env=env,check=True)
+    subprocess.run(['lake','env','lean','--root=proof-audit',str(stem)+'.lean','-o',str(stem)+'.olean'],env=env,check=True)
 pr=json.loads(Path('audit-543/pr.json').read_text())
 url=f"https://raw.githubusercontent.com/Konamiu/formal-conjectures/{pr['headRefOid']}/FormalConjectures/ErdosProblems/543.lean"
 proposed=urllib.request.urlopen(url,timeout=120).read().decode()
+(Path('FormalConjectures/ErdosProblems')/'543.lean').write_text(proposed)
+subprocess.run(['lake','--wfail','build','FormalConjectures.ErdosProblems.«543»'],check=True)
 (root/'Proposed543.lean').write_text(proposed.replace('Erdos543','Erdos543Proposed'))
-subprocess.run(['lake','env','lean',str(root/'Proposed543.lean'),'-o',str(root/'Proposed543.olean')],env=env,check=True)
+subprocess.run(['lake','env','lean','--root=proof-audit',str(root/'Proposed543.lean'),'-o',str(root/'Proposed543.olean')],env=env,check=True)
 (root/'Bridge543.lean').write_bytes(Path('audit-543/Bridge543.lean').read_bytes())
-subprocess.run(['lake','env','lean',str(root/'Bridge543.lean')],env=env,check=True)
+subprocess.run(['lake','env','lean','--root=proof-audit',str(root/'Bridge543.lean')],env=env,check=True)
 print('PASS complete proof and exact statement bridge',flush=True)
