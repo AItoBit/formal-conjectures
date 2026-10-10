@@ -1,0 +1,132 @@
+name: Audit pinned Erdos 135 proof
+on:
+  push:
+    branches: [codex/erdos135-axiom-audit]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  axioms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain leanprover/lean4:v4.33.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Prepare unchanged pinned import closure
+        run: |
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/pantheon" "$RUNNER_TEMP/audit"
+          cd "$RUNNER_TEMP/source"
+          git init
+          git remote add origin https://github.com/plby/lean-proofs.git
+          git fetch --depth=1 origin 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          cd "$RUNNER_TEMP/pantheon"
+          git init
+          git remote add origin https://github.com/frenzymath/FormalPantheon.git
+          git fetch --depth=1 origin ffbb65c21afc8a36ace67720f1b0df1c63d26bd1
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = ffbb65c21afc8a36ace67720f1b0df1c63d26bd1
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, re, shutil
+          temp = pathlib.Path(os.environ["RUNNER_TEMP"])
+          source = temp / "source/src/latest"
+          pantheon = temp / "pantheon/BoundedGaps"
+          audit = temp / "audit"
+          manifest = json.loads((source / "lake-manifest.json").read_text())
+          mathlib = next(p for p in manifest["packages"] if p["name"] == "mathlib")
+          assert mathlib["rev"] == "db584cd6d46c92f209a44c0f1c829460d327499d"
+          bounded = next(p for p in manifest["packages"] if p["name"] == "BoundedGaps")
+          assert bounded["rev"] == "ffbb65c21afc8a36ace67720f1b0df1c63d26bd1"
+          assert (source / "lean-toolchain").read_text().strip() == "leanprover/lean4:v4.33.0"
+          pending = ["ErdosProblems.Erdos135"]
+          copied = {}
+          external = set()
+          while pending:
+              module = pending.pop()
+              if module in copied:
+                  continue
+              root = pantheon if module.startswith("BoundedGaps.") else source
+              relative = pathlib.Path(*module.split(".")).with_suffix(".lean")
+              path = root / relative
+              if not path.is_file():
+                  if not (module == "Mathlib" or module.startswith("Mathlib.")):
+                      raise RuntimeError(f"Unresolved import: {module}")
+                  external.add(module)
+                  continue
+              target = audit / relative
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(path, target)
+              assert target.read_bytes() == path.read_bytes()
+              copied[module] = {"source": str(path.relative_to(temp)),
+                                "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+              for line in path.read_text().splitlines():
+                  match = re.match(r"^(?:public )?import\s+(.+)$", line)
+                  if match:
+                      pending.extend(match.group(1).split("--")[0].split())
+          assert len(copied) == 616, len(copied)
+          (audit / "sources.json").write_text(json.dumps(copied, indent=2))
+          (audit / "pinned-manifest.json").write_bytes((source / "lake-manifest.json").read_bytes())
+          shutil.copyfile(source / "lean-toolchain", audit / "lean-toolchain")
+          print(f"Copied {len(copied)} unchanged source modules: 614 local and 2 BoundedGaps")
+          print("Proof SHA-256:", copied["ErdosProblems.Erdos135"]["sha256"])
+          PY
+          cd "$RUNNER_TEMP/audit"
+          cat > lakefile.lean <<'LEAN'
+          import Lake
+          open Lake DSL
+          package erdos135_axiom_check where
+            leanOptions := #[
+              ⟨`pp.unicode.fun, true⟩,
+              ⟨`relaxedAutoImplicit, false⟩,
+              ⟨`weak.linter.mathlibStandardSet, true⟩,
+              ⟨`maxSynthPendingDepth, 3⟩
+            ]
+          require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "db584cd6d46c92f209a44c0f1c829460d327499d"
+          lean_lib ErdosProblems
+          lean_lib Util
+          lean_lib BoundedGaps
+          LEAN
+          cat > AxiomAudit.lean <<'LEAN'
+          import ErdosProblems.Erdos135
+          #check Erdos135.not_erdos_135
+          #print axioms Erdos135.not_erdos_135
+          #print axioms Erdos135.erdos_135
+          LEAN
+      - name: Restore pinned Mathlib dependencies
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/audit"
+          lake update 2>&1 | tee setup.log
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = db584cd6d46c92f209a44c0f1c829460d327499d
+          lake exe cache get 2>&1 | tee -a setup.log
+          lean --version | tee version.log
+      - name: Build exact endpoint with the Lean kernel
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/audit"
+          lake --wfail build ErdosProblems.Erdos135 2>&1 | tee build.log
+      - name: Print theorem type and axiom closure
+        run: |
+          set -o pipefail
+          cd "$RUNNER_TEMP/audit"
+          lake env lean AxiomAudit.lean 2>&1 | tee axioms.log
+          grep -F "'Erdos135.not_erdos_135' depends on axioms: [propext, Classical.choice, Quot.sound]" axioms.log
+          if grep -E 'sorryAx|Lean\.ofReduceBool|Lean\.trustCompiler' axioms.log; then
+            exit 1
+          fi
+      - name: Save verification receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erdos135-kernel-check
+          path: |
+            ${{ runner.temp }}/audit/*.log
+            ${{ runner.temp }}/audit/sources.json
+            ${{ runner.temp }}/audit/pinned-manifest.json
+            ${{ runner.temp }}/audit/lake-manifest.json
+            ${{ runner.temp }}/audit/lean-toolchain
+            ${{ runner.temp }}/audit/lakefile.lean
+            ${{ runner.temp }}/audit/AxiomAudit.lean
