@@ -1,0 +1,63 @@
+name: Independent Erdős 129 verification receipt
+on:
+  push:
+    branches: [codex/erdos-129-verification]
+permissions:
+  contents: read
+jobs:
+  receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch exact proof and FC commits
+        run: |
+          git clone https://github.com/AItoBit/erdos-129-lean.git /tmp/external
+          git -C /tmp/external checkout 06e2f9ba62d7511e3d9ccfd96dcada975b6bd9e1
+          git clone https://github.com/AItoBit/formal-conjectures.git /tmp/fc
+          git -C /tmp/fc checkout 31cf42bb4b2b1206a2b91174349212aaec3c4cc9
+          cp verification/erdos129/StrictAudit.lean /tmp/external/
+          cp verification/erdos129/Independent.lean /tmp/external/
+          cp verification/erdos129/Correspondence.lean /tmp/fc/
+          python3 - <<'PY'
+          from pathlib import Path
+          s = Path('/tmp/external/Erdos129.lean').read_text()
+          Path('/tmp/fc/External129.lean').write_text(s.replace('namespace Erdos129', 'namespace ExternalErdos129').replace('end Erdos129', 'end ExternalErdos129'))
+          with Path('/tmp/fc/lakefile.toml').open('a') as f:
+              f.write('\n[[lean_lib]]\nname = "External129"\n\n[[lean_lib]]\nname = "Correspondence"\n')
+          with Path('/tmp/external/lakefile.toml').open('a') as f:
+              f.write('\n[[require]]\nname = "lean4lean"\ngit = "https://github.com/digama0/lean4lean.git"\nrev = "8223d223ed98661882e95d9d6a7126df7097cd76"\n\n[[lean_lib]]\nname = "StrictAudit"\n\n[[lean_exe]]\nname = "independent"\nroot = "Independent"\n')
+          PY
+          mkdir -p /tmp/receipt
+          git -C /tmp/external rev-parse HEAD | tee /tmp/receipt/external-commit.txt
+          git -C /tmp/fc rev-parse HEAD | tee /tmp/receipt/fc-commit.txt
+          sha256sum /tmp/external/Erdos129.lean /tmp/fc/FormalConjectures/ErdosProblems/129.lean | tee /tmp/receipt/source-hashes.txt
+      - name: Rebuild and enforce axiom allowlist
+        working-directory: /tmp/external
+        run: |
+          set -o pipefail
+          lake update 2>&1 | tee /tmp/receipt/setup.log
+          lake exe cache get 2>&1 | tee /tmp/receipt/cache.log
+          lake --wfail build Erdos129 StrictAudit 2>&1 | tee /tmp/receipt/build-axioms.log
+          lake env leanchecker -v Erdos129 2>&1 | tee /tmp/receipt/kernel-replay.log
+      - name: Check against exact FC declarations
+        working-directory: /tmp/fc
+        run: |
+          set -o pipefail
+          lake exe cache get 2>&1 | tee /tmp/receipt/fc-cache.log
+          lake --wfail build 'FormalConjectures.ErdosProblems.«129»' Correspondence 2>&1 | tee /tmp/receipt/correspondence.log
+      - name: Replay with independently implemented kernel
+        working-directory: /tmp/external
+        run: |
+          set -o pipefail
+          lake build independent 2>&1 | tee /tmp/receipt/independent-build.log
+          lake exe independent 2>&1 | tee /tmp/receipt/independent-replay.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos129-independent-receipt
+          path: /tmp/receipt/*
