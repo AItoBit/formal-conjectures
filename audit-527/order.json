@@ -1,1 +1,134 @@
-{"source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e", "order": ["BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Basic", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteExpansion", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteCancellation", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Spectral", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.EigenvectorCancellation", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.TrigonometricIdentity", "BoundedGaps.BombieriVinogradov.Analytic.CircleReciprocalSquarePacking", "BoundedGaps.BombieriVinogradov.Analytic.CosecantPointwise", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.AnalyticEstimate", "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert", "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.FiniteDuality", "BoundedGaps.BombieriVinogradov.Analytic.ReducedFractionFrequencies", "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveIntervalKernel", "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveInterval", "ErdosProblems.Erdos615.Erdos615BrunnMinkowski", "ErdosProblems.Erdos1028", "ErdosProblems.Erdos88.Invariance", "ErdosProblems.Erdos527"]}
+{
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "external_commit": "ffbb65c21afc8a36ace67720f1b0df1c63d26bd1",
+  "order": [
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Basic",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteExpansion",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteCancellation",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Spectral",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.EigenvectorCancellation",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.TrigonometricIdentity",
+    "BoundedGaps.BombieriVinogradov.Analytic.CircleReciprocalSquarePacking",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantPointwise",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.AnalyticEstimate",
+    "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert",
+    "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.FiniteDuality",
+    "BoundedGaps.BombieriVinogradov.Analytic.ReducedFractionFrequencies",
+    "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveIntervalKernel",
+    "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveInterval",
+    "ErdosProblems.Erdos615.Erdos615BrunnMinkowski",
+    "ErdosProblems.Erdos1028",
+    "ErdosProblems.Erdos88.Invariance",
+    "ErdosProblems.Erdos527"
+  ],
+  "files": [
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Basic",
+      "provider": "FormalPantheon",
+      "sha256": "4192028c6749768cd8c4f32cb1804541dc3dce63f8fa449ddbb1c59f4f51ff91",
+      "lines": 144
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteExpansion",
+      "provider": "FormalPantheon",
+      "sha256": "08baefeaa7b408ba81eaf2ab088ca12043269019930579c9707ebba56aa8c48a",
+      "lines": 119
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.FiniteCancellation",
+      "provider": "FormalPantheon",
+      "sha256": "3e99cd3bf25c5ffcf8038b880bb7cf9ef78a6f8f3bb30d9254332034a2b145b0",
+      "lines": 386
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.Spectral",
+      "provider": "FormalPantheon",
+      "sha256": "c449fb610795bf1e4ca986ddfb1fe700505f6de4966a6241080b95ed62f94285",
+      "lines": 156
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.EigenvectorCancellation",
+      "provider": "FormalPantheon",
+      "sha256": "809dedd3a0b94eb32014b985ba75c46caf749dbcf5ac92dc1589a32213efd485",
+      "lines": 93
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.TrigonometricIdentity",
+      "provider": "FormalPantheon",
+      "sha256": "7c75249a14dddcc351d45d643684896c95352c9e1a63b1a986bdd8f047449699",
+      "lines": 63
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CircleReciprocalSquarePacking",
+      "provider": "FormalPantheon",
+      "sha256": "72f3f029d0bc6139457593b825892bd8c6d4463f23a1d866bac62f8ff5a8eead",
+      "lines": 269
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantPointwise",
+      "provider": "FormalPantheon",
+      "sha256": "71a92798a4146873dd52ff7f948cd4ef6ed4c58a82a49b491d126a3a0d7c7305",
+      "lines": 167
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert.AnalyticEstimate",
+      "provider": "FormalPantheon",
+      "sha256": "0b59528b5ed6ec675aabca0dbd6c5617080ba3933cd6142bff819045cda89487",
+      "lines": 285
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.CosecantHilbert",
+      "provider": "FormalPantheon",
+      "sha256": "9857edea1f471478f05e71fd23e73584a471458d5c551ef8b4290537ee026d02",
+      "lines": 30
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.FiniteDuality",
+      "provider": "FormalPantheon",
+      "sha256": "8b5b300f6f435bcc2b7d34681bbdaaf0cbe3d2c4e1d2e5b4a0e3be6ad659b2ff",
+      "lines": 128
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.ReducedFractionFrequencies",
+      "provider": "FormalPantheon",
+      "sha256": "e9e80d24659c5abe1cc48237e1ce69bb7fa4e85cfa51817b4d0e08e6585ee475",
+      "lines": 165
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveIntervalKernel",
+      "provider": "FormalPantheon",
+      "sha256": "dda5db9030a0f4617bc649f75faf73e8ff5c64f5c35e3fb300d7c7dab37e05e2",
+      "lines": 259
+    },
+    {
+      "module": "BoundedGaps.BombieriVinogradov.Analytic.AdditiveLargeSieve.ConsecutiveInterval",
+      "provider": "FormalPantheon",
+      "sha256": "8d558ec5f0ec56d55b6acc434e7e3f2544ec69c14d06eedaf90fcd1023bec191",
+      "lines": 372
+    },
+    {
+      "module": "ErdosProblems.Erdos615.Erdos615BrunnMinkowski",
+      "provider": "lean-proofs",
+      "sha256": "ea53f084ea7ed0d7d53f685401f764bf0ea904ffa2bb3d990d5fe3aaf2f5e702",
+      "lines": 1013
+    },
+    {
+      "module": "ErdosProblems.Erdos1028",
+      "provider": "lean-proofs",
+      "sha256": "6dd15c2d5fd5cd1d4b5df642c0d7d9a20742b84ce3e9037ed148a295ca6bba3b",
+      "lines": 1609
+    },
+    {
+      "module": "ErdosProblems.Erdos88.Invariance",
+      "provider": "lean-proofs",
+      "sha256": "3a7f673a11589cf1fea477099bd8893f749d1551abe80a177487b8fcfcec1330",
+      "lines": 1366
+    },
+    {
+      "module": "ErdosProblems.Erdos527",
+      "provider": "lean-proofs",
+      "sha256": "4f9b02f27f12f79255a869a6b12fbd7daa91dcc503e0c0069b853a8ea4dfe0ac",
+      "lines": 20679
+    }
+  ]
+}

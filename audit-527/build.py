@@ -30,11 +30,11 @@ for name in ['formalpantheon-v4.33.0.patch', 'formalpantheon-v4.33.0-s2.patch', 
     patch=urllib.request.urlopen(url).read().decode()
     sections=re.split(r'(?=^diff --git )',patch,flags=re.M)
     wanted={'b/BoundedGaps/'+m.replace('.','/')+'.lean' for m in order if m.startswith('BoundedGaps.')}
-    selected=''.join(section for section in sections if any('+++ '+path+'\n' in section for path in wanted))
+    selected=''.join(section for section in sections if any('+++ '+path in section.splitlines() for path in wanted))
     if selected:
         patchpath=root/name
         patchpath.write_text(selected)
-        subprocess.run(['git','apply','-p2',str(patchpath)],cwd=root,check=True)
+        subprocess.run(['git','apply','-p2','--directory=proof-audit',str(patchpath)],check=True)
 
 (root / 'lean-toolchain').write_text('leanprover/lean4:v4.33.0\n')
 (root / 'lakefile.toml').write_text('''name = "erdos527audit"
