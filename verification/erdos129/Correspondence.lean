@@ -1,5 +1,6 @@
 import FormalConjectures.ErdosProblems.«129»
 import External129
+import Lean.Util.CollectAxioms
 
 namespace Erdos129Receipt
 
@@ -18,5 +19,17 @@ theorem erdos_129 : answer(False) ↔
 #print axioms two_pow_lt_R
 #print axioms not_eventually_R_lt
 #print axioms erdos_129
+
+run_cmd Lean.Elab.Command.liftTermElabM do
+  for (fc, checked) in #[(`Erdos129.two_pow_lt_R, `Erdos129Receipt.two_pow_lt_R),
+      (`Erdos129.not_eventually_R_lt, `Erdos129Receipt.not_eventually_R_lt),
+      (`Erdos129.erdos_129, `Erdos129Receipt.erdos_129)] do
+    unless ← Lean.Meta.isDefEq (← Lean.getConstInfo fc).type (← Lean.getConstInfo checked).type do
+      throwError "FC TYPE MISMATCH: {fc}"
+    let axioms ← Lean.collectAxioms checked
+    for axiomName in axioms do
+      unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do
+        throwError "AXIOM REJECTED: {checked}: {axiomName}"
+    Lean.logInfo m!"FC TYPE AND AXIOM MATCH: {fc}"
 
 end Erdos129Receipt

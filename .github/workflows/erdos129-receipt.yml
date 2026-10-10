@@ -50,7 +50,7 @@ jobs:
           set -o pipefail
           lake exe cache get 2>&1 | tee /tmp/receipt/fc-cache.log
           lake --wfail build 'FormalConjectures.ErdosProblems.«129»' Correspondence 2>&1 | tee /tmp/receipt/correspondence.log
-      - name: Replay with independently implemented kernel
+      - name: Replay with alternate Lean4Lean kernel
         working-directory: /tmp/external
         run: |
           set -o pipefail
