@@ -1,0 +1,47 @@
+name: Erdős 356 pinned proof and integer bridge
+on:
+  push:
+    branches: [codex/erdos-356-verification]
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch pinned proof
+        run: |
+          git clone https://github.com/plby/lean-proofs.git /tmp/plby
+          git -C /tmp/plby checkout 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          mkdir -p /tmp/verify/ErdosProblems/Erdos822
+          cp /tmp/plby/src/latest/ErdosProblems/Erdos356.lean /tmp/verify/ErdosProblems/
+          cp /tmp/plby/src/latest/ErdosProblems/Erdos822/FiniteEnergy.lean /tmp/verify/ErdosProblems/Erdos822/
+          cp verification/erdos356/{Bridge.lean,lakefile.lean,lean-toolchain} /tmp/verify/
+      - name: Verify proof and bridge
+        working-directory: /tmp/verify
+        run: |
+          set -o pipefail
+          lake update 2>&1 | tee setup.log
+          lake exe cache get 2>&1 | tee cache.log
+          lake --wfail build ErdosProblems.Erdos356 2>&1 | tee proof.log
+          lake --wfail build Bridge 2>&1 | tee bridge.log
+          lake env lean Bridge.lean 2>&1 | tee axioms.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos356-verification
+          path: /tmp/verify/*.log
+  statement:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - run: lake exe cache get
+      - run: lake --wfail build 'FormalConjectures.ErdosProblems.«356»'
