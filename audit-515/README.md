@@ -1,0 +1,34 @@
+# Isolated verification of Erdos problem 515
+
+Run `python3 audit-515/isolated.py` from a fresh checkout on Linux with elan installed.
+The workflow runs this command and uploads its sources and logs as an artifact.
+
+Inputs are fixed at these commits:
+
+- FC PR #7072: `66f3fb70a35318c275d633dac2aea67c02c7c288`.
+- External proof: `8822f7ddef30fadbd92e1c6ab4ed897af356af5e`.
+- Lean and Mathlib: the FC commit's `lean-toolchain` and `lake-manifest.json`.
+
+The script rebuilds the unchanged 231-module external dependency closure in the
+FC environment. It does not reuse the previous external theorem's build products.
+
+Both projects declare names in `Erdos515`. The isolated copy relocates the FC
+namespace to `FC515`; all definitions and the theorem proposition are retained.
+The script checks that the theorem proposition text is unchanged. It replaces
+the FC placeholder with `external_implies_fc`, without using the placeholder theorem.
+The contribution file in PR #7072 remains unchanged.
+
+`Bridge.lean` defines `toFC` by copying the external path's `vertex` and
+`tendsToInfinity` fields. `lineIntegral_toFC` proves integral equality with `rfl`.
+The bridge invokes the external theorem, converts its witness once, and uses
+that witness for every positive exponent.
+
+Guarded `#print axioms` commands require both the external theorem and the
+proved FC declaration to depend on exactly `propext`, `Classical.choice`, and
+`Quot.sound`. A further output check restricts the integral equality's axioms
+to this same permitted set. Any `sorryAx`, custom mathematical axiom, or native
+evaluation axiom fails the verification.
+
+The artifact contains the original FC file, generated `VerifiedFC515.lean`,
+source hashes, build logs, bridge axiom output, and provenance. A successful
+run ends with `ISOLATED FC DECLARATION VERIFIED; ALL PERMITTED-AXIOM CHECKS PASSED`.

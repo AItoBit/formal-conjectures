@@ -28,7 +28,7 @@ def run(args, cwd=root, env=None, log=None):
         raise SystemExit(result.returncode)
     return result.stdout
 
-root.mkdir(exist_ok=True)
+root.mkdir()
 run(['git', 'init'])
 run(['git', 'fetch', '--depth=1', 'https://github.com/AItoBit/formal-conjectures', FC_COMMIT])
 run(['git', 'checkout', '--detach', 'FETCH_HEAD'])
@@ -60,7 +60,7 @@ for index, module in enumerate(metadata['order'], 1):
     run(['lake', 'env', 'lean', '-M8192', '-o', str(output), relative + '.lean'],
         env=env, log=module + '.log')
 
-source = (root / 'FormalConjectures/ErdosProblems/515.lean').read_text()
+source = (root / 'FormalConjectures/ErdosProblems/515.lean').read_bytes().decode('utf-8')
 (logs / 'FC515.original.lean').write_text(source)
 assert source.count('namespace Erdos515') == 1
 assert source.count('end Erdos515') == 1
@@ -74,7 +74,9 @@ relocated = relocated.replace('public import FormalConjecturesUtil',
     'public import FormalConjecturesUtil\npublic import ErdosProblems.Erdos515')
 bridge = (base / 'audit-515/Bridge.lean').read_text()
 bridge = bridge.replace('FC515.', '')
-verified = (relocated + bridge + '\n' + marker + statement +
+theorem_doc_start = relocated.rindex('/--')
+verified = (relocated[:theorem_doc_start] + bridge + '\n' +
+            relocated[theorem_doc_start:] + marker + statement +
             ' := by\n  exact external_implies_fc\n\nend FC515\n')
 assert verified.split(marker)[1].split(' := by\n')[0] == statement
 for name in ['Erdos515.erdos_515', 'FC515.erdos_515']:
