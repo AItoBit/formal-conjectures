@@ -16,6 +16,9 @@ logs = base / 'isolated-logs'
 logs.mkdir(exist_ok=True)
 metadata = json.loads((base / 'audit-515/order.json').read_text())
 assert metadata['source_commit'] == EXTERNAL_COMMIT
+graph = json.loads((base / 'audit-515/dependency-graph.json').read_text())
+assert graph['source_commit'] == EXTERNAL_COMMIT
+assert graph['order'] == metadata['order']
 
 def run(args, cwd=root, env=None, log=None):
     print('RUN', ' '.join(map(str, args)), flush=True)
@@ -52,13 +55,31 @@ def fetch(module):
 with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
     hashes = dict(pool.map(fetch, metadata['order']))
 (logs / 'external-source-hashes.json').write_text(json.dumps(hashes, indent=2))
-for index, module in enumerate(metadata['order'], 1):
+def compile_module(module):
     relative = module.replace('.', '/')
     output = root / '.lake/build/lib/lean' / (relative + '.olean')
     output.parent.mkdir(parents=True, exist_ok=True)
-    print(f'EXTERNAL [{index}/{len(metadata["order"])}] {module}', flush=True)
+    print('EXTERNAL BUILD', module, flush=True)
     run(['lake', 'env', 'lean', '-M8192', '-o', str(output), relative + '.lean'],
         env=env, log=module + '.log')
+
+pending = list(metadata['order'])
+completed = set()
+with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+    running = {}
+    while pending or running:
+        for module in list(pending):
+            if len(running) == 2:
+                break
+            if set(graph['dependencies'][module]) <= completed:
+                pending.remove(module)
+                running[pool.submit(compile_module, module)] = module
+        assert running, ('Dependency graph cannot progress', pending)
+        done, _ = concurrent.futures.wait(running, return_when=concurrent.futures.FIRST_COMPLETED)
+        for future in done:
+            future.result()
+            completed.add(running.pop(future))
+            print(f'EXTERNAL COMPLETED {len(completed)}/{len(metadata["order"])}', flush=True)
 
 source = (root / 'FormalConjectures/ErdosProblems/515.lean').read_bytes().decode('utf-8')
 (logs / 'FC515.original.lean').write_text(source)
@@ -72,6 +93,9 @@ assert placeholder == '  sorry\n\nend Erdos515\n'
 relocated = prefix.replace('namespace Erdos515', 'namespace FC515')
 relocated = relocated.replace('public import FormalConjecturesUtil',
     'public import FormalConjecturesUtil\npublic import ErdosProblems.Erdos515')
+relocated = relocated.replace('\nmodule\n', '\n')
+relocated = relocated.replace('public import ', 'import ')
+relocated = relocated.replace('@[expose] public section\n', '')
 bridge = (base / 'audit-515/Bridge.lean').read_text()
 bridge = bridge.replace('FC515.', '')
 theorem_doc_start = relocated.rindex('/--')
@@ -101,6 +125,7 @@ provenance = {
     'fc_source_sha256': hashlib.sha256(source.encode()).hexdigest(),
     'fc_statement_preserved_byte_for_byte': True,
     'namespace_relocation': 'Erdos515 -> FC515 (external namespace unchanged)',
+    'module_mode': 'Legacy mode; all original public declarations stay public',
     'toolchain': (root / 'lean-toolchain').read_text().strip(),
     'mathlib': json.loads((root / 'lake-manifest.json').read_text())['packages'],
     'permitted_axioms': ['propext', 'Classical.choice', 'Quot.sound'],

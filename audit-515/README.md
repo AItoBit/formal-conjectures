@@ -11,9 +11,12 @@ Inputs are fixed at these commits:
 
 The script rebuilds the unchanged 231-module external dependency closure in the
 FC environment. It does not reuse the previous external theorem's build products.
+Two compiler processes run concurrently, with each module waiting for its imports.
 
 Both projects declare names in `Erdos515`. The isolated copy relocates the FC
 namespace to `FC515`; all definitions and the theorem proposition are retained.
+It removes the FC module-mode directives because Lean forbids a module from
+importing the legacy external file. The original public declarations remain public.
 The script checks that the theorem proposition text is unchanged. It replaces
 the FC placeholder with `external_implies_fc`, without using the placeholder theorem.
 The contribution file in PR #7072 remains unchanged.
