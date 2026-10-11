@@ -1,5 +1,16 @@
 # Isolated verification of Erdos problem 515
 
+Verification passed on 2026-10-11:
+https://github.com/AItoBit/formal-conjectures/actions/runs/38119462031.
+The tested harness commit is `8c9f7ad378bcc3b0fee2ef392cb843ad9ab62fe7`.
+`receipt/` preserves the generated proof, axiom log, source hashes, and provenance.
+The complete logs are also available in the run's artifact:
+https://github.com/AItoBit/formal-conjectures/actions/runs/38119462031/artifacts/11694831929.
+
+The external theorem, integral equality, and proved FC declaration each report
+exactly `[propext, Classical.choice, Quot.sound]`. The FC source SHA-256 is
+`d5b0e890209a307703bc021e701984ad10278d49363c19ad1b2dd159a8ced789`.
+
 Run `python3 audit-515/isolated.py` from a fresh checkout on Linux with elan installed.
 The workflow runs this command and uploads its sources and logs as an artifact.
 

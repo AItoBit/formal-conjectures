@@ -1,0 +1,3 @@
+'Erdos515.erdos_515' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FC515.lineIntegral_toFC' depends on axioms: [propext, Classical.choice, Quot.sound]
+'FC515.erdos_515' depends on axioms: [propext, Classical.choice, Quot.sound]
