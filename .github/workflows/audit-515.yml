@@ -1,4 +1,4 @@
-name: Audit Erdős 515 proof
+name: Isolated external-to-FC verification for Erdős 515
 on:
   push:
     branches: [codex/erdos-515-proof-audit]
@@ -18,5 +18,11 @@ jobs:
           tar xzf /tmp/elan.tar.gz -C /tmp
           /tmp/elan-init -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Rebuild pinned proof and print axioms
-        run: python3 audit-515/build.py
+      - name: Rebuild pinned proof and verify the exact FC declaration
+        run: python3 audit-515/isolated.py
+      - name: Upload isolated verification sources and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erdos-515-isolated-verification
+          path: isolated-logs/
