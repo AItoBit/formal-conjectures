@@ -25,9 +25,36 @@ def fetch(path):
 with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
     sources = dict(pool.map(fetch, paths))
 
+def strip_comments_and_strings(source):
+    out, pos, depth = [], 0, 0
+    while pos < len(source):
+        if source.startswith("/-", pos):
+            depth += 1
+            pos += 2
+        elif depth and source.startswith("-/", pos):
+            depth -= 1
+            pos += 2
+        elif depth:
+            out.append("\n" if source[pos] == "\n" else " ")
+            pos += 1
+        elif source.startswith("--", pos):
+            end = source.find("\n", pos)
+            pos = len(source) if end < 0 else end
+        elif source[pos] == '"':
+            out.append(" ")
+            pos += 1
+            while pos < len(source) and source[pos] != '"':
+                pos += 2 if source[pos] == "\\" else 1
+            pos += 1
+        else:
+            out.append(source[pos])
+            pos += 1
+    return "".join(out)
+
 deps = {}
 for name, source in sources.items():
-    imports = re.findall(r"^\s*(?:public\s+)?import\s+([^\n]+)", source, re.M)
+    imports = re.findall(r"^\s*(?:public\s+)?import\s+([^\n]+)",
+                         strip_comments_and_strings(source), re.M)
     deps[name] = []
     for line in imports:
         for imported in line.split("--", 1)[0].split():
