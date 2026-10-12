@@ -1,0 +1,36 @@
+name: Verify existing Erdos 622 proof
+on:
+  push:
+    branches: [codex/erdos-622-verify]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Prepare pinned external proof
+        run: python .github/prepare_erdos622.py
+      - name: Install Lean toolchain
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch pinned Mathlib and cache
+        working-directory: proof-audit
+        run: |
+          lake update
+          lake exe cache get
+      - name: Kernel check proof and print axioms
+        run: |
+          set -o pipefail
+          python .github/run_erdos622.py 2>&1 | tee verification.log
+      - name: Preserve verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erdos622-verification
+          path: verification.log
+          if-no-files-found: ignore
