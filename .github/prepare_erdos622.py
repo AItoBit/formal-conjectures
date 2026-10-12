@@ -105,7 +105,8 @@ theorem erdos622_positive_density :
       ∀ G : SimpleGraph (Fin (2 * n)), G.IsRegularOfDegree (n + 1) →
         c * (2 : ℝ) ^ (2 * n) ≤ (Erdos622.cycleSpannedSubsets G).card := by
   refine ⟨1 / 4, by norm_num, ?_⟩
-  simpa using Erdos622.erdos_622 (1 / 4) (by norm_num)
+  simpa only [show (1 / 2 : ℝ) - 1 / 4 = 1 / 4 by norm_num] using
+    Erdos622.erdos_622 (1 / 4) (by norm_num)
 
 #print axioms erdos622_positive_density
 ''', encoding="utf-8")
