@@ -31,11 +31,13 @@ else:
     declaration = source[start:end]
     assert 'sorry' not in declaration
     text = ('import FormalConjecturesForMathlib.Combinatorics.SimpleGraph.Mycielski\n\n'
+            '/-! Axiom audit of the exact submitted Tutte–Zykov declaration. -/\n\n'
             'open SimpleGraph\n\nnamespace Erdos627\n\n' + declaration
             + '\n\nend Erdos627\n\n'
             + '\n'.join('#print axioms ' + name for name in names) + '\n')
     Path('ExactTargetAudit.lean').write_text(text, encoding='utf-8')
     actual_text = ('import FormalConjectures.ErdosProblems.«627»\n\n'
+                   '/-! Axiom audit of the actual imported Erdős 627 theorem and its dependencies. -/\n\n'
                    + '\n'.join('#print axioms ' + name for name in names) + '\n')
     Path('ActualModuleAudit.lean').write_text(actual_text, encoding='utf-8')
     manifest = {'exact_declaration': declaration, 'sources': {
