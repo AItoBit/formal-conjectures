@@ -1,4 +1,4 @@
-"""Compile the exact submitted declaration using only its proved shared dependency."""
+"""Audit the exact declaration and the declaration imported from its actual module."""
 import hashlib
 import json
 from pathlib import Path
@@ -13,7 +13,8 @@ names = [
     'Erdos627.erdos_627.variants.tutte_zykov',
 ]
 if '--check-log' in sys.argv:
-    text = Path('axioms.log').read_text(encoding='utf-8')
+    log_path = sys.argv[sys.argv.index('--log') + 1] if '--log' in sys.argv else 'axioms.log'
+    text = Path(log_path).read_text(encoding='utf-8')
     matches = re.findall(r"'([^']+)' depends on axioms:\s*\[([^\]]*)\]", text)
     assert {name for name, _ in matches} == set(names), matches
     allowed = {'propext', 'Classical.choice', 'Quot.sound'}
@@ -34,6 +35,9 @@ else:
             + '\n\nend Erdos627\n\n'
             + '\n'.join('#print axioms ' + name for name in names) + '\n')
     Path('ExactTargetAudit.lean').write_text(text, encoding='utf-8')
+    actual_text = ('import FormalConjectures.ErdosProblems.«627»\n\n'
+                   + '\n'.join('#print axioms ' + name for name in names) + '\n')
+    Path('ActualModuleAudit.lean').write_text(actual_text, encoding='utf-8')
     manifest = {'exact_declaration': declaration, 'sources': {
         str(p): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in (proof_path, target_path)}}

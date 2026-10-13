@@ -29,6 +29,15 @@ jobs:
           set -o pipefail
           lake env lean -DwarningAsError=true ExactTargetAudit.lean 2>&1 | tee axioms.log
           python .github/erdos627-audit.py --check-log
+      - name: Build shared library and actual problem module with warnings as errors
+        run: |
+          set -o pipefail
+          lake --wfail build FormalConjecturesForMathlib 'FormalConjectures.ErdosProblems.«627»' 2>&1 | tee integration-build.log
+      - name: Inspect axioms imported from the actual problem module
+        run: |
+          set -o pipefail
+          lake env lean -DwarningAsError=true ActualModuleAudit.lean 2>&1 | tee actual-axioms.log
+          python .github/erdos627-audit.py --check-log --log actual-axioms.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -38,4 +47,7 @@ jobs:
             axioms.log
             ExactTargetAudit.lean
             audit-manifest.json
+            integration-build.log
+            actual-axioms.log
+            ActualModuleAudit.lean
           if-no-files-found: error
