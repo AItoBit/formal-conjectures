@@ -1,7 +1,8 @@
 import Erdos625SelfContained
 
 /- The following two definitions are copied from Formal Conjectures at
-817d8a74 (Apache-2.0), Combinatorics/SimpleGraph/Coloring/Vertex.lean.
+817d8a74 (Apache-2.0), Combinatorics/SimpleGraph/Coloring/Vertex.lean,
+using set-builder notation for compatibility with Mathlib 4.31.
 The external proof is by Samuil Petkov, CC BY 4.0, unchanged at
 9702b5e734627e3fdaef8da0d65ad7394016f0a7. The adapter below is new. -/
 namespace SimpleGraph
@@ -10,7 +11,7 @@ def Cocolorable {V : Type*} (G : SimpleGraph V) (n : ℕ) : Prop :=
     ∀ i, G.induce {v | coloring v = i} = ⊥ ∨ G.induce {v | coloring v = i} = ⊤
 
 noncomputable def cochromaticNumber {V : Type*} (G : SimpleGraph V) : ℕ∞ :=
-  ⨅ n ∈ Set.ofPred G.Cocolorable, (n : ℕ∞)
+  ⨅ n ∈ {k | G.Cocolorable k}, (n : ℕ∞)
 end SimpleGraph
 
 namespace Audit625
@@ -86,10 +87,14 @@ theorem quantitative :
             n / (Real.log n) ^ 3 ≤
           (G.chromaticNumber.toNat : ℝ) - G.cochromaticNumber.toNat})
       atTop (𝓝 1) := by
-  simpa only [Erdos625.Erdos625Statement, Erdos625.gapProbability,
-    Erdos625.gapEvent, Erdos625.gapScale, Erdos625.gapConstant,
+  have h : Tendsto
+      (fun n => Erdos625.randomGraphMeasure n
+        {G | Erdos625.gapScale n ≤
+          (Erdos625.chromaticNumberNat G : ℝ) - Erdos625.cochromaticNumber G})
+      atTop (𝓝 1) := Erdos625.erdos625
+  simpa only [Erdos625.gapScale, Erdos625.gapConstant,
     Erdos625.randomGraphMeasure, Erdos625.halfProbability,
-    Erdos625.chromaticNumberNat, cochromaticNumber_eq] using Erdos625.erdos625
+    Erdos625.chromaticNumberNat, cochromaticNumber_eq] using h
 
 theorem positive_answer : True ↔
     ∀ K : ℝ, Tendsto
