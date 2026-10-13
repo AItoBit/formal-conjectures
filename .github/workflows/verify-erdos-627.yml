@@ -1,0 +1,41 @@
+name: Verify Erdos 627 Tutte-Zykov proof
+on:
+  push:
+    branches: [codex/erdos-627-verify]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Get pinned Mathlib cache
+        run: lake exe cache get
+      - name: Build complete proof module with warnings as errors
+        run: |
+          set -o pipefail
+          lake --wfail build FormalConjecturesForMathlib.Combinatorics.SimpleGraph.Mycielski 2>&1 | tee proof-build.log
+      - name: Extract exact submitted theorem
+        run: python .github/erdos627-audit.py
+      - name: Check exact theorem and all principal axioms
+        run: |
+          set -o pipefail
+          lake env lean -DwarningAsError=true ExactTargetAudit.lean 2>&1 | tee axioms.log
+          python .github/erdos627-audit.py --check-log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos627-verification
+          path: |
+            proof-build.log
+            axioms.log
+            ExactTargetAudit.lean
+            audit-manifest.json
+          if-no-files-found: error
