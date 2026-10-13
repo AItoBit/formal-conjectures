@@ -39,6 +39,11 @@ jobs:
           set -o pipefail
           mkdir -p .lake/build/lib/lean
           lake env lean -DwarningAsError=true -o .lake/build/lib/lean/Erdos625SelfContained.olean Erdos625SelfContained.lean 2>&1 | tee full-proof.log
+      - uses: actions/cache/save@v4
+        if: steps.proof-cache.outputs.cache-hit != 'true'
+        with:
+          path: external-proof/.lake/build
+          key: erdos625-standalone-9702b5e-lean431-v1
       - name: Check exact FC statements and print axioms
         working-directory: external-proof
         run: |

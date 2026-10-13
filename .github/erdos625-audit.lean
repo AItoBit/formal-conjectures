@@ -25,7 +25,7 @@ theorem induce_eq_bot_iff (s : Set V) :
   · intro h x hx y hy _
     exact h ⟨x, hx⟩ ⟨y, hy⟩
   · intro h x y hxy
-    exact h x.property y.property hxy.ne hxy
+    exact h x.property y.property (fun hval => hxy.ne (Subtype.ext hval)) hxy
 
 /-- The external cocolorings and the repository cocolorings have the same
 finite palettes. Empty color classes are allowed on both sides. -/
@@ -48,10 +48,9 @@ theorem coColorable_iff_cocolorable (k : ℕ) :
       valid := ?_
     }⟩
     intro i
-    dsimp
-    split
-    · exact (induce_eq_bot_iff G _).mp ‹_›
-    · exact SimpleGraph.induce_eq_top.mp ((h i).resolve_left ‹_›)
+    by_cases hi : G.induce {v | coloring v = i} = ⊥
+    · simpa only [if_pos hi] using (induce_eq_bot_iff G _).mp hi
+    · simpa only [if_neg hi] using SimpleGraph.induce_eq_top.mp ((h i).resolve_left hi)
 
 /-- Both minimizations give the same extended natural number. -/
 theorem cochromaticNumber_cast_eq [Fintype V] :
