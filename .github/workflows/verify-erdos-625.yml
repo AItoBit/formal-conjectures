@@ -1,0 +1,56 @@
+name: Verify complete Erdos 625 proof and FC bridge
+on:
+  push:
+    branches: [codex/erdos-625-verify]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch exact external source
+        run: |
+          git clone --filter=blob:none https://github.com/SamPetkov/Erdos625-formalization.git external-proof
+          git -C external-proof checkout --detach 9702b5e734627e3fdaef8da0d65ad7394016f0a7
+          cp .github/erdos625-audit.lean external-proof/Audit.lean
+          cd external-proof
+          python scripts/generate_self_contained.py --check
+          sha256sum Erdos625SelfContained.lean
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Get pinned Mathlib cache
+        working-directory: external-proof
+        run: lake exe cache get
+      - uses: actions/cache@v4
+        id: proof-cache
+        with:
+          path: external-proof/.lake/build
+          key: erdos625-standalone-9702b5e-lean431-v1
+      - name: Kernel-check complete standalone proof
+        if: steps.proof-cache.outputs.cache-hit != 'true'
+        working-directory: external-proof
+        run: |
+          set -o pipefail
+          mkdir -p .lake/build/lib/lean
+          lake env lean -DwarningAsError=true -o .lake/build/lib/lean/Erdos625SelfContained.olean Erdos625SelfContained.lean 2>&1 | tee full-proof.log
+      - name: Check exact FC statements and print axioms
+        working-directory: external-proof
+        run: |
+          set -o pipefail
+          lake env lean -DwarningAsError=true Audit.lean 2>&1 | tee bridge.log
+          if grep -E 'sorryAx|Lean.ofReduceBool|Lean.trustCompiler' bridge.log; then exit 1; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erdos625-verification
+          path: |
+            external-proof/full-proof.log
+            external-proof/bridge.log
+            external-proof/Audit.lean
+          if-no-files-found: error
