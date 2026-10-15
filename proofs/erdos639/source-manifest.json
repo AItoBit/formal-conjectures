@@ -1,0 +1,15 @@
+{
+  "url": "https://raw.githubusercontent.com/plby/lean-proofs/68da20b96673899166e94638f5a7fffeb7231d35/src/latest/ErdosProblems/Erdos639.lean",
+  "original_byte_sha256": "ab0c752c1f226b6acbc96d5bb81e48cb0f2717841eaf5bc363957b9f5106bff4",
+  "ported_lf_sha256": "025f563f6058abee3fc01119f74aba086ad053d6544a2942c8be5ec015ee579e",
+  "edits": [
+    [
+      "simpa [subtype, Sym2.exists]",
+      "simpa [Sym2.exists]"
+    ],
+    [
+      "simp_all [v', w', x', nimt_adj, Function.Embedding.subtype]",
+      "simp_all [v', w', x', nimt_adj]"
+    ]
+  ]
+}
