@@ -1,0 +1,80 @@
+# Copyright 2026 The Formal Conjectures Authors.
+# Licensed under the Apache License, Version 2.0.
+name: Reproduce Erdős 636 and 637 proofs
+
+on:
+  push:
+    branches: [codex/verify-erdos-636-637]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        problem: ['637', '636']
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          repository: plby/lean-proofs
+          ref: 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          path: upstream-proof
+          sparse-checkout: src/latest
+          persist-credentials: false
+      - name: Prepare unchanged dependency closure
+        run: >-
+          python3 scripts/prepare_erdos_proof_audit.py
+          --source upstream-proof/src/latest --output proof
+          --problem '${{ matrix.problem }}'
+      - uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6
+        with:
+          lake-package-directory: proof
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Build exact problem proof
+        working-directory: proof
+        run: |
+          set -o pipefail
+          lake build 'ErdosProblems.Erdos${{ matrix.problem }}' 2>&1 | tee build.log
+      - name: Inspect final theorem and axiom dependencies
+        working-directory: proof
+        run: |
+          set -o pipefail
+          lake env lean Audit.lean 2>&1 | tee axioms.log
+          python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          name = json.loads(Path('provenance.json').read_text())['target']
+          log = Path('axioms.log').read_text()
+          match = re.search(re.escape("'" + name + "'") + r" depends on axioms:\s*\[([^]]*)\]", log)
+          if not match:
+              raise SystemExit('Final axiom report not found')
+          axioms = {entry.strip() for entry in match[1].split(',') if entry.strip()}
+          if axioms - {'propext', 'Classical.choice', 'Quot.sound'}:
+              raise SystemExit(f'Unapproved axioms: {axioms}')
+          print('PASS:', name, sorted(axioms))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: erdos-${{ matrix.problem }}-verification
+          path: |
+            proof/provenance.json
+            proof/lean-toolchain
+            proof/lake-manifest.json
+            proof/build.log
+            proof/axioms.log
+          retention-days: 7
