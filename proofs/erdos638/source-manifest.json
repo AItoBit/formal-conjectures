@@ -1,0 +1,370 @@
+{
+  "archive_url": "https://www.starfleetmath.com/downloads/verify/erdos-638/erdos-638-solution.zip",
+  "archive_sha256": "a90f7b27fe3fcb2b23b2919fbc978cc5ad6a7b70ea1847a161400cb6d70f9880",
+  "original_lean": "4.31.0",
+  "original_mathlib": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f",
+  "ported_lean": "4.33.1",
+  "ported_mathlib": "0df444a360eaa60ab8c11dca51a86af692955474",
+  "files": {
+    "Research/BergeCycles.lean": {
+      "original_byte_sha256": "4fa85bc5750feecbb7d4fc0193e8c800e974c71493f64d468cd6bc7dc3a4e22a",
+      "ported_lf_sha256": "4fa85bc5750feecbb7d4fc0193e8c800e974c71493f64d468cd6bc7dc3a4e22a",
+      "edits": []
+    },
+    "Research/BipartiteGirth.lean": {
+      "original_byte_sha256": "6d4011cbd8bd6300797ba0948eacb4406fc4eaad1e2fb445cba876146f877de4",
+      "ported_lf_sha256": "6d4011cbd8bd6300797ba0948eacb4406fc4eaad1e2fb445cba876146f877de4",
+      "edits": []
+    },
+    "Research/BipartiteHJ.lean": {
+      "original_byte_sha256": "9632333282cbd6dbce8e0829e332f6fcddf4e3ee7f2a483546e575ec16bfe20a",
+      "ported_lf_sha256": "9632333282cbd6dbce8e0829e332f6fcddf4e3ee7f2a483546e575ec16bfe20a",
+      "edits": []
+    },
+    "Research/BipartitePartite.lean": {
+      "original_byte_sha256": "254ce6188d98da880e5ceccefcb4c81b130675b96b960f4323383bb0dd8bee5e",
+      "ported_lf_sha256": "f7df9504e012d658b90cf80b2746e6385db74a099f60d43840214caf4f58ed1f",
+      "edits": [
+        {
+          "start": 6697,
+          "end": 6697,
+          "replacement": "  rfl\n"
+        },
+        {
+          "start": 7068,
+          "end": 7068,
+          "replacement": "  rfl\n"
+        }
+      ]
+    },
+    "Research/BipartiteSystems.lean": {
+      "original_byte_sha256": "db034ca8c80d4513f5b9a4e7f40041d8825d349d1cfceabe7c0266caba8d8af9",
+      "ported_lf_sha256": "db034ca8c80d4513f5b9a4e7f40041d8825d349d1cfceabe7c0266caba8d8af9",
+      "edits": []
+    },
+    "Research/BlockConstruction.lean": {
+      "original_byte_sha256": "3d8fbd6696777ec349383a075ead051e1f8fe5b46890296aa23ee9b8d2475c2e",
+      "ported_lf_sha256": "3d8fbd6696777ec349383a075ead051e1f8fe5b46890296aa23ee9b8d2475c2e",
+      "edits": []
+    },
+    "Research/ConditionalCounterexample.lean": {
+      "original_byte_sha256": "da6c1eb0730cd20b64e74954695dab83720f4c6ee277f0dc43135a17be46af46",
+      "ported_lf_sha256": "da6c1eb0730cd20b64e74954695dab83720f4c6ee277f0dc43135a17be46af46",
+      "edits": []
+    },
+    "Research/CoreBlocks.lean": {
+      "original_byte_sha256": "a8cd2765ee9544031a7df87fb3a827eaacb4cf43549359ba2f8caf0d21653324",
+      "ported_lf_sha256": "a8cd2765ee9544031a7df87fb3a827eaacb4cf43549359ba2f8caf0d21653324",
+      "edits": []
+    },
+    "Research/CycleExtraction.lean": {
+      "original_byte_sha256": "af02c2e4f88044d457ba97612bf57c2108cbf6ab45f43498714c3036d0f4e5dc",
+      "ported_lf_sha256": "af02c2e4f88044d457ba97612bf57c2108cbf6ab45f43498714c3036d0f4e5dc",
+      "edits": []
+    },
+    "Research/Erdos638.lean": {
+      "original_byte_sha256": "2c3ba6a0a8fece890e01c445f33c7d9c248f44ed222214f6d67c185d12174aa2",
+      "ported_lf_sha256": "cdce6c7366fcdfb33d4789ffe986d06844c6bce0cf1bcbc3c5de87debe662fdf",
+      "edits": [
+        {
+          "start": 819,
+          "end": 862,
+          "replacement": "  let : Nonempty C := Infinite.nonempty C\n"
+        },
+        {
+          "start": 936,
+          "end": 936,
+          "replacement": "\n"
+        }
+      ]
+    },
+    "Research/FiniteRamsey.lean": {
+      "original_byte_sha256": "4e3cc35652ea781463d66d824ab38a0932db2f0f55956d9724e18a8eb41da0e1",
+      "ported_lf_sha256": "4e3cc35652ea781463d66d824ab38a0932db2f0f55956d9724e18a8eb41da0e1",
+      "edits": []
+    },
+    "Research/GirthPreservation.lean": {
+      "original_byte_sha256": "3e8befd9953ba87897e4080c5889548b10c755733d93f205b5f7a48606cb0401",
+      "ported_lf_sha256": "3e8befd9953ba87897e4080c5889548b10c755733d93f205b5f7a48606cb0401",
+      "edits": []
+    },
+    "Research/GirthSharpening.lean": {
+      "original_byte_sha256": "d0bbd0af141840d87816bda3d8a9678a460a46e90bce954abbb3b35fd87e7d7f",
+      "ported_lf_sha256": "d0bbd0af141840d87816bda3d8a9678a460a46e90bce954abbb3b35fd87e7d7f",
+      "edits": []
+    },
+    "Research/GraphCopySystems.lean": {
+      "original_byte_sha256": "f15224a804fd7e6e354a98e5800e21e63fc8cf519f2ec7c83b5377f223e4b9aa",
+      "ported_lf_sha256": "f15224a804fd7e6e354a98e5800e21e63fc8cf519f2ec7c83b5377f223e4b9aa",
+      "edits": []
+    },
+    "Research/GraphGirthPreservation.lean": {
+      "original_byte_sha256": "9f9e0a3a78d2b93c10607648c8a7dcd6792185eb11963641a0443ac4caba70e3",
+      "ported_lf_sha256": "1ef28a2f4d19bbc10064a912537d076a5f10ce033458c5824bbfce1baa3a5fb9",
+      "edits": [
+        {
+          "start": 15833,
+          "end": 15893,
+          "replacement": "  erw [amalgamatedGraph_embedding_mapEdge C b S] at hwActual\n"
+        },
+        {
+          "start": 18354,
+          "end": 18418,
+          "replacement": "      erw [amalgamatedGraph_embedding_mapEdge C b S] at haActual\n"
+        }
+      ]
+    },
+    "Research/GraphPartiteFocusing.lean": {
+      "original_byte_sha256": "e45d3b7fca81705d8471b3bb75266404868b2800c445fb5d1d20e38728d4e80a",
+      "ported_lf_sha256": "2a09df6cb328f789a5cab63d53c27f6dbbd960c82b628ca8f71b92db760e7d2d",
+      "edits": [
+        {
+          "start": 765,
+          "end": 806,
+          "replacement": "    refine \u27e8(by intro h; cases h), Or.inl (Or.inr ?_)\u27e9\n"
+        }
+      ]
+    },
+    "Research/GraphPartiteIteration.lean": {
+      "original_byte_sha256": "ccb90b39b4eecc264efd575be787c1eba161fb0ab614c405a72d1a013bd15c5b",
+      "ported_lf_sha256": "ccb90b39b4eecc264efd575be787c1eba161fb0ab614c405a72d1a013bd15c5b",
+      "edits": []
+    },
+    "Research/Hereditary.lean": {
+      "original_byte_sha256": "165f6283f70150ea4a276916e86c8982a52d85b8b4c877c124326835440d2a90",
+      "ported_lf_sha256": "165f6283f70150ea4a276916e86c8982a52d85b8b4c877c124326835440d2a90",
+      "edits": []
+    },
+    "Research/HereditaryTarget.lean": {
+      "original_byte_sha256": "ed329d650949c9ba05b7d67ede0a05dc878ea6134ca7f3d29c52a75457a05005",
+      "ported_lf_sha256": "ed329d650949c9ba05b7d67ede0a05dc878ea6134ca7f3d29c52a75457a05005",
+      "edits": []
+    },
+    "Research/IncidenceCircuits.lean": {
+      "original_byte_sha256": "8cb0f21f56c770a6f2ec3a0f0e1252f543e2ebc14d77ec4a7935089f646fbd41",
+      "ported_lf_sha256": "8cb0f21f56c770a6f2ec3a0f0e1252f543e2ebc14d77ec4a7935089f646fbd41",
+      "edits": []
+    },
+    "Research/IncidenceForest.lean": {
+      "original_byte_sha256": "c4e233a9aa22a458abb4fa74c4677297358b114647e6847538cd1ca06fc69d64",
+      "ported_lf_sha256": "c4e233a9aa22a458abb4fa74c4677297358b114647e6847538cd1ca06fc69d64",
+      "edits": []
+    },
+    "Research/IndexedBipartitePartite.lean": {
+      "original_byte_sha256": "b0234ac17fef81157cf0a7e2467190ac2a33f7339b8663afc4cd110d66468047",
+      "ported_lf_sha256": "b5aa04fb01d6df419e656994b3f9fb0737d0449ecb37809a6e7d36ca50ce71af",
+      "edits": [
+        {
+          "start": 5670,
+          "end": 5670,
+          "replacement": "  rfl\n"
+        },
+        {
+          "start": 6063,
+          "end": 6063,
+          "replacement": "  rfl\n"
+        }
+      ]
+    },
+    "Research/IndexedCopies.lean": {
+      "original_byte_sha256": "4eedff42527e15129423d8fea76d42323ec6efedb255eaef2a57e3b833dcdf88",
+      "ported_lf_sha256": "4eedff42527e15129423d8fea76d42323ec6efedb255eaef2a57e3b833dcdf88",
+      "edits": []
+    },
+    "Research/IndexedGraphPartite.lean": {
+      "original_byte_sha256": "572732902c4baca3e88892dcfbc294e192e4703f7c24cec0a39eef81e8a1fe65",
+      "ported_lf_sha256": "139d1480a04a44dec01cb65649f542221bb8fcea5c3a7b9899f14a17f346fb49",
+      "edits": [
+        {
+          "start": 2134,
+          "end": 2167,
+          "replacement": "        exact (hadj (i, x) (i, y)).trans (by simp) }\n"
+        },
+        {
+          "start": 3460,
+          "end": 3460,
+          "replacement": "  rfl\n"
+        },
+        {
+          "start": 3837,
+          "end": 3837,
+          "replacement": "  rfl\n"
+        },
+        {
+          "start": 4204,
+          "end": 4204,
+          "replacement": "  rfl\n"
+        }
+      ]
+    },
+    "Research/LineIntersections.lean": {
+      "original_byte_sha256": "0659fef7b03f64449c180265b239726fdbd7bc6716c099fc1a634b78f4103656",
+      "ported_lf_sha256": "0659fef7b03f64449c180265b239726fdbd7bc6716c099fc1a634b78f4103656",
+      "edits": []
+    },
+    "Research/LocalCore.lean": {
+      "original_byte_sha256": "b4b6fc745260731a1ed601d0f9cbfe0d9f7a56ec3ffeb43db4a2a4c8749127f7",
+      "ported_lf_sha256": "b4b6fc745260731a1ed601d0f9cbfe0d9f7a56ec3ffeb43db4a2a4c8749127f7",
+      "edits": []
+    },
+    "Research/PartiteAmalgamation.lean": {
+      "original_byte_sha256": "e432ef26197904dfeb6f45db4a644e351945bd42442e68314e00dc652c12165c",
+      "ported_lf_sha256": "e432ef26197904dfeb6f45db4a644e351945bd42442e68314e00dc652c12165c",
+      "edits": []
+    },
+    "Research/PartiteIteration.lean": {
+      "original_byte_sha256": "9c2e1efb4e13a94ed964ecebd8a2c2036e689c763c251f3a5b8e522d7ec9b1c8",
+      "ported_lf_sha256": "9c2e1efb4e13a94ed964ecebd8a2c2036e689c763c251f3a5b8e522d7ec9b1c8",
+      "edits": []
+    },
+    "Research/PartiteSystems.lean": {
+      "original_byte_sha256": "07abbe454ab1c7cd38cba5994f2e2e9f53b14dbd20801c0681bea00c4875243c",
+      "ported_lf_sha256": "a16bd66f336e15e7eeface7beb89205249c3b674c89fd40e840a6c3e969a928a",
+      "edits": [
+        {
+          "start": 5072,
+          "end": 5072,
+          "replacement": "          rfl\n"
+        },
+        {
+          "start": 5238,
+          "end": 5238,
+          "replacement": "          rfl\n"
+        },
+        {
+          "start": 7389,
+          "end": 7427,
+          "replacement": "      map_adj_iff := by\n        intro x y\n        change (i = i \u2227 A.Adj x y) \u2194 A.Adj x y\n        simp }\n"
+        },
+        {
+          "start": 9621,
+          "end": 9621,
+          "replacement": "    rfl\n"
+        },
+        {
+          "start": 9777,
+          "end": 9777,
+          "replacement": "    rfl\n"
+        }
+      ]
+    },
+    "Research/RamseyCompactness.lean": {
+      "original_byte_sha256": "1a7cc0da993fbe7ec27ed10369981510faa2246e9b521464bcea59391f6c8163",
+      "ported_lf_sha256": "1a7cc0da993fbe7ec27ed10369981510faa2246e9b521464bcea59391f6c8163",
+      "edits": []
+    },
+    "Research/SheetIntersections.lean": {
+      "original_byte_sha256": "89acebe63eb6780968f3e2b9a080bd7fc544abd838bd392f81111c84d8634a78",
+      "ported_lf_sha256": "89acebe63eb6780968f3e2b9a080bd7fc544abd838bd392f81111c84d8634a78",
+      "edits": []
+    },
+    "Research/SparseBipartite.lean": {
+      "original_byte_sha256": "6b91115c861f14ed365c10c604bbc991db3dc87a0434e5cf997635d074abe4ce",
+      "ported_lf_sha256": "6b91115c861f14ed365c10c604bbc991db3dc87a0434e5cf997635d074abe4ce",
+      "edits": []
+    },
+    "Research/SparseBipartiteConstruction.lean": {
+      "original_byte_sha256": "8941360eadefcfa864f650d0a9d01b9a2fa90cae211ac4b80e24a93aaf5d287f",
+      "ported_lf_sha256": "8941360eadefcfa864f650d0a9d01b9a2fa90cae211ac4b80e24a93aaf5d287f",
+      "edits": []
+    },
+    "Research/SparseGraphConstruction.lean": {
+      "original_byte_sha256": "a17e679ef8c5f0b582b8a226b70d96292c4c1a62a01c3c12e4c03354874c3097",
+      "ported_lf_sha256": "af50775e99a3af8370ca39143676eb05aeddc695ffe2cd6cf6f59b87d4866d0d",
+      "edits": [
+        {
+          "start": 1466,
+          "end": 1511,
+          "replacement": "  erw [disjointGraph_embedding_mapEdge_layer,\n"
+        }
+      ]
+    },
+    "Research/SparseReduction.lean": {
+      "original_byte_sha256": "bad94b7cf2c761e4bf58a3d50390939f425bd73ea512bea16c8bb9c820395dbd",
+      "ported_lf_sha256": "bad94b7cf2c761e4bf58a3d50390939f425bd73ea512bea16c8bb9c820395dbd",
+      "edits": []
+    },
+    "Research/Statement.lean": {
+      "original_byte_sha256": "a81e05b2d4af55d1addd7240ec854f0260c449231378bf1c8e76291ec9615e29",
+      "ported_lf_sha256": "a81e05b2d4af55d1addd7240ec854f0260c449231378bf1c8e76291ec9615e29",
+      "edits": []
+    },
+    "Research/TriangleCoverage.lean": {
+      "original_byte_sha256": "56ef3b08337ab689344bd7e14ee807b7ce7c81235df0d304c823efe840c8a4db",
+      "ported_lf_sha256": "56ef3b08337ab689344bd7e14ee807b7ce7c81235df0d304c823efe840c8a4db",
+      "edits": []
+    },
+    "Research/TriangleFamily.lean": {
+      "original_byte_sha256": "e276d8a4c524b2941377c79beef0e46862d9a6c74d3e3c978789dd4d6f5512d4",
+      "ported_lf_sha256": "e276d8a4c524b2941377c79beef0e46862d9a6c74d3e3c978789dd4d6f5512d4",
+      "edits": []
+    },
+    "Research/TriangleIncidenceTransfer.lean": {
+      "original_byte_sha256": "98d3ea7394a6bd50795d5950bb0fc74b8b947646d9459313f5b3658434af8949",
+      "ported_lf_sha256": "538175bc44fb73db5051bcc6bb7910b41c88df0db619d43cefe3a6bd4aa7b3ff",
+      "edits": [
+        {
+          "start": 11175,
+          "end": 11175,
+          "replacement": "      exact setFamilyIncidenceGraph_not_adj_left_left _ _ _\n"
+        },
+        {
+          "start": 11380,
+          "end": 11430,
+          "replacement": "      erw [setFamilyIncidenceGraph_adj_left_right,\n"
+        },
+        {
+          "start": 11783,
+          "end": 11833,
+          "replacement": "      erw [setFamilyIncidenceGraph_adj_right_left,\n"
+        }
+      ]
+    },
+    "Research/TriangleSpecialization.lean": {
+      "original_byte_sha256": "54d3110383a422dea0a8c1e508e6cc994131d7c380d42667e5e0f82b16eb44cd",
+      "ported_lf_sha256": "f7e69b6fea4bb1e69d272bbd3bb89d9741e1dba6f9b3631b3e72144ae861ea2b",
+      "edits": [
+        {
+          "start": 693,
+          "end": 693,
+          "replacement": "    change G.Adj (if i = 0 then x else if i = 1 then y else z)\n      (if j = 0 then x else if j = 1 then y else z) \u2194 trianglePattern.Adj i j\n"
+        },
+        {
+          "start": 1869,
+          "end": 1907,
+          "replacement": "        rfl\n"
+        },
+        {
+          "start": 2212,
+          "end": 2258,
+          "replacement": "                rfl\n"
+        },
+        {
+          "start": 2417,
+          "end": 2469,
+          "replacement": "        exact Sym2.eq_swap\n"
+        },
+        {
+          "start": 2774,
+          "end": 2820,
+          "replacement": "                rfl\n"
+        },
+        {
+          "start": 3171,
+          "end": 3231,
+          "replacement": "                exact Sym2.eq_swap\n"
+        },
+        {
+          "start": 3596,
+          "end": 3656,
+          "replacement": "                exact Sym2.eq_swap\n"
+        }
+      ]
+    },
+    "Research.lean": {
+      "original_byte_sha256": "4037f7e29acd9597d16f11f976f6c5e0ada3ed7e5f54aeefb05bb46379e6c5c0",
+      "ported_lf_sha256": "4037f7e29acd9597d16f11f976f6c5e0ada3ed7e5f54aeefb05bb46379e6c5c0",
+      "edits": []
+    }
+  }
+}
