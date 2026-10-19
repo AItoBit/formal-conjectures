@@ -1,0 +1,55 @@
+name: Verify full Erdos 696 proof
+
+on:
+  push:
+    branches: [codex/erdos-696-verification]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: leanprover/lean-action@24581d74d674803a25a81b10b059c5c0cdd344c6
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+      - name: Prepare pinned proof and record environment
+        run: |
+          set -euo pipefail
+          python3 proofs/erdos696/prepare.py
+          lake env lean --version | tee proofs/erdos696/logs/toolchain.log
+          git rev-parse HEAD | tee proofs/erdos696/logs/project-commit.log
+          git -C .lake/packages/mathlib rev-parse HEAD | tee proofs/erdos696/logs/mathlib-commit.log
+      - name: Build density dependencies
+        run: |
+          set -euo pipefail
+          lake --wfail build FormalConjecturesForMathlib.Data.Set.Density 2>&1 | tee proofs/erdos696/logs/density-build.log
+      - name: Verify exact statement bridge
+        run: |
+          set -euo pipefail
+          mkdir -p .lake/build/lib/lean/proofs/erdos696
+          lake env lean -j1 -o .lake/build/lib/lean/proofs/erdos696/Bridge.olean proofs/erdos696/Bridge.lean 2>&1 | tee proofs/erdos696/logs/bridge.log
+      - name: Verify complete analytic proof
+        run: |
+          set -euo pipefail
+          lake env lean -j1 -o .lake/build/lib/lean/Erdos696External.olean Erdos696External.lean 2>&1 | tee proofs/erdos696/logs/external-proof.log
+      - name: Verify final theorem and transitive axiom allowlist
+        run: |
+          set -euo pipefail
+          lake env lean -j1 -o .lake/build/lib/lean/proofs/erdos696/Complete.olean proofs/erdos696/Complete.lean 2>&1 | tee proofs/erdos696/logs/complete.log
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: erdos696-kernel-verification
+          path: proofs/erdos696/logs/
