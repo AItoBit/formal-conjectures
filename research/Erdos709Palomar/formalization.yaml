@@ -1,0 +1,82 @@
+version: v0.4
+
+project:
+  name: "Singleton case of Erdős problem 709"
+  description: >-
+    Formalizes the interval matching definitions for Erdős problem 709 and proves
+    that the multiplier 1 suffices when the input has one element. This is a
+    boundary case only; it does not prove a quantitative bound or asymptotic
+    formula for the general optimum multiplier.
+  authors: [AItoBit]
+  responsible_maintainers: [AItoBit]
+  license: Apache-2.0
+
+repository:
+  role: substantive-development
+
+sources:
+  - title: "Erdős Problem 709"
+    authors: [Thomas Bloom]
+    id: "https://www.erdosproblems.com/709"
+    type: web post
+    location: "Problem statement and references"
+    relationship: formalizes
+    note: >-
+      This package proves only the singleton input case. It does not formalize
+      the request for good general bounds or an asymptotic formula.
+    author_endorsement: not-contacted
+  - title: "Bemerkungen zu einer Aufgabe eines mathematischen Wettbewerbs"
+    authors: ["P. Erdős", "J. Surányi"]
+    id: "Mat. Lapok 10 (1959), 39–48"
+    type: paper
+    location: "Background source cited for Problem 709"
+    relationship: background
+    author_endorsement: n/a
+
+classification:
+  arxiv: [math.NT, math.CO]
+  msc2020: [11B75, 05C70]
+
+status:
+  scope: >-
+    Complete proof of the singleton case Works 1 1, with interval, matching,
+    and multiplier definitions. The full asymptotic problem remains open.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  main_results:
+    - declaration: "Erdos709.singleton_case"
+      file: "Solution.lean"
+      sorry_count: 0
+      comparator_config: "comparator.json"
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["GPT-6"]
+      framework: "Codex desktop"
+      tool_setup: >-
+        Ported the supplied Erdős 709 Lean development into a standalone
+        Comparator package, completed the singleton proof, and ran Lean checks.
+      prompting_notes: >-
+        The user supplied Erdos709.lean and requested Lean formalization and
+        submission. The task was scoped to the proved singleton case because
+        the source's general quantitative question is open.
+  notes: >-
+    AItoBit supplied the initial Lean development, directed this task, and is
+    the responsible maintainer. Codex assistance in the port and verification
+    is disclosed above. No human expert review is claimed.
+
+review:
+  status: self-assessed
+  notes: >-
+    The statement was compared with the Erdős 709 definitions supplied for this
+    task. Lean compilation and Palomar's full mechanical preflight are pending.
+
+fidelity:
+  divergences: >-
+    Only the singleton case is formalized. The source's request for good bounds
+    or an asymptotic formula has no specific bound to encode here and remains
+    unresolved.
+
+acknowledgements: "Mathlib supplies the background library."
