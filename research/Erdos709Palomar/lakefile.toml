@@ -4,7 +4,7 @@ defaultTargets = ["Challenge", "Solution"]
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "065356127b1dc0016f66b7283ce0ce2c4055aa55"
+rev = "0db6cb99b412983de54b59ecc1b0b2747542cda3"
 
 [[lean_lib]]
 name = "Challenge"
