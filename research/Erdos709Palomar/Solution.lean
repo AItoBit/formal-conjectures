@@ -36,10 +36,13 @@ theorem singleton_case : Works 1 1 := by
     obtain ⟨z, hz⟩ := Finset.card_eq_one.mp hcard
     have hMz : M = z := Finset.mem_singleton.mp (hz ▸ hM)
     simpa [hMz] using hz
-  obtain ⟨b, hb, hd⟩ := by
+  have hMpos : 0 < M := by
+    have := htwo M hM
+    omega
+  obtain ⟨b, hb, hd⟩ : ∃ b ∈ window start M, M ∣ b := by
     let r := start % M
     let b := start + (M - r)
-    have hr : r < M := Nat.mod_lt start (by have := htwo M hM; omega)
+    have hr : r < M := Nat.mod_lt start hMpos
     have heq : start % M + M * (start / M) = start := by
       simpa [Nat.mul_comm] using Nat.mod_add_div start M
     have hbdiv : b = M * (start / M + 1) := by
