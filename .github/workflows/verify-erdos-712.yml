@@ -1,0 +1,16 @@
+name: Verify Erdos 712
+on:
+  push:
+    branches: [verify-erdos-712-turan]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build-args: 'FormalConjectures.ErdosProblems.«712»'
+          test: false
