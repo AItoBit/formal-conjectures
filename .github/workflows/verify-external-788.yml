@@ -1,0 +1,46 @@
+name: Verify external Erdos 788 proof
+on:
+  push:
+    branches: [verify-erdos-788]
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Fetch pinned proof and minimal dependency closure
+        run: |
+          git init proof-source
+          cd proof-source
+          git remote add origin https://github.com/plby/lean-proofs.git
+          git fetch --depth 1 --filter=blob:none origin 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+          cd ..
+          python3 - <<'PY'
+          import pathlib, subprocess, re
+          root=pathlib.Path("proof"); root.mkdir()
+          todo=["ErdosProblems.Erdos788"]; seen=set()
+          while todo:
+              m=todo.pop()
+              if m in seen: continue
+              seen.add(m)
+              rel=m.replace(".","/")+".lean"
+              s=subprocess.check_output(["git","-C","proof-source","show","FETCH_HEAD:src/latest/"+rel])
+              p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(s)
+              for dep in re.findall(r"^import\s+([\w.]+)",s.decode(),re.M):
+                  if dep.split(".")[0] not in ("Mathlib","Lean","Std","Init"):todo.append(dep)
+          (root/"lean-toolchain").write_text("leanprover/lean4:v4.33.0\n")
+          (root/"lakefile.toml").write_text('name = "verify788"\n[[require]]\nname = "mathlib"\ngit = "https://github.com/leanprover-community/mathlib4.git"\nrev = "db584cd6d46c92f209a44c0f1c829460d327499d"\n[[lean_lib]]\nname = "ErdosProblems"\n')
+          assert len(seen)==44
+          PY
+      - name: Install official Lean toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          sh elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Build full proof and report axioms
+        working-directory: proof
+        run: |
+          lake update
+          lake exe cache get Mathlib
+          lake build ErdosProblems.Erdos788
