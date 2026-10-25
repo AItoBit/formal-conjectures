@@ -1,0 +1,2 @@
+'Construction792.erdos_one_third' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Atlas792.erdos_sumFree_strict' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,11 +1,11 @@
 from pathlib import Path
-import subprocess,re
+import hashlib,json,re,subprocess
 p=Path(__file__).resolve().parent
-for name in ['Construction791','Endpoint791','Main791']:
-    source=(p/(name+'.lean')).read_text(encoding='utf-8')
-    assert not re.search(r'\b(sorry|admit|axiom|unsafe|native_decide)\b',source)
-    target=p/'.lake/build/lib/lean'/(name+'.olean')
-    target.parent.mkdir(parents=True,exist_ok=True)
-    r=subprocess.run(['lake','env','lean',name+'.lean','-o',str(target)],cwd=p,text=True,encoding='utf-8',stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-    print(r.stdout)
-    assert r.returncode==0 and 'sorryAx' not in r.stdout
+for name,expected in json.loads((p/'source-hashes.json').read_text()).items():
+    assert hashlib.sha256((p/name).read_bytes()).hexdigest()==expected,name
+for f in p.glob('*.lean'):
+    s=f.read_text(encoding='utf-8')
+    assert not re.search(r'\b(sorry|sorryAx|admit|unsafe|native_decide)\b',s),f
+    assert not re.search(r'^\s*axiom\s',s,re.M),f
+subprocess.run(['lake','--wfail','build','Definitions792','Construction792','Upper792','Main792','Target792'],cwd=p,check=True)
+subprocess.run(['lake','env','lean','Audit792.lean'],cwd=p,check=True)

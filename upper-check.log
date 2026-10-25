@@ -1,0 +1,3 @@
+'Erdos792.interval_sumFree_card_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos792.fNonzero_elementary_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos792.f_elementary_upper' depends on axioms: [propext, Classical.choice, Quot.sound]

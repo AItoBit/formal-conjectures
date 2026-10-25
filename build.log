@@ -1,0 +1,18 @@
+ℹ [3136/3220] Replayed Definitions792
+info: Definitions792.lean:120:0: 'Erdos792.f_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Definitions792.lean:121:0: 'Erdos792.f_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [3965/3971] Replayed Construction792
+info: Construction792.lean:193:0: 'Construction792.erdos_one_third' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Construction792.lean:194:0: 'Atlas792.erdos_sumFree_strict' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [3967/3971] Replayed Upper792
+info: Upper792.lean:66:0: 'Erdos792.interval_sumFree_card_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Upper792.lean:67:0: 'Erdos792.fNonzero_elementary_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Upper792.lean:68:0: 'Erdos792.f_elementary_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [3969/3971] Replayed Main792
+info: Main792.lean:94:0: 'Erdos792.strict_nonzero_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Main792.lean:95:0: 'Erdos792.literal_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Main792.lean:96:0: 'Erdos792.literal_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Main792.lean:97:0: 'Erdos792.literal_f_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Main792.lean:98:0: 'Erdos792.literal_f_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [3972/3973] Built Target792 (13s)
+Build completed successfully (3973 jobs).

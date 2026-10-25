@@ -1,0 +1,17 @@
+{
+  "status": "PARTIAL RESULT PROVED; FULL SHARP TARGET UNRESOLVED",
+  "checked_at": "2026-10-25",
+  "lean": "v4.35.0",
+  "mathlib": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+  "original_atlas_commit": "7f27c3ad16289716586daf311cf568bcae4160d5",
+  "original_source_sha256": "e928ca2f06b04368eb4e82fa547f76b6bfe1017e31887ae398511ad726813902",
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "independent_auditor": "/root/audit",
+  "construction_agent": "/root/construction791",
+  "no_novelty_claim": true,
+  "literature_campaign_complete": false
+}

@@ -1,0 +1,11 @@
+Construction792.lean adapts a source file copyrighted by Meta Platforms, Inc.
+and affiliates, from facebookresearch/atlas-lean at commit
+7f27c3ad16289716586daf311cf568bcae4160d5, path
+v1/Atlas/ProbabilisticMethodsInCombinatorics/code/Chapter2/SumFree.lean.
+The original copyright notice and original v1 LICENSE are retained.
+Modifications: module visibility, current API names, and a strict one-third
+endpoint using all-scalar averaging, correcting the upstream floor-only endpoint.
+The strict mathematical bound is known from Alon and Kleitman (1990).
+Main792's IsSumFree definition and equivalence follow Formal Conjectures'
+FormalConjecturesForMathlib/Combinatorics/Basic.lean under Apache 2.0.
+No new mathematical solution or human expert review is claimed.
