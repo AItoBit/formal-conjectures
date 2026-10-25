@@ -1,0 +1,5 @@
+'Erdos799Bridge.choosable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos799Bridge.listChromaticNumber_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos799Bridge.graphDensity_eq_proportion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos799Bridge.listChromaticNumber_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos799Bridge.erdos_799' depends on axioms: [propext, Classical.choice, Quot.sound]

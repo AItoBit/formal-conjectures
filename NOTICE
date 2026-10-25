@@ -1,0 +1,7 @@
+Apache2.0 applies to new wrapper/API/bridge files only.
+The fetched original ten-module dependency closure contains mixed license notices.
+It is not redistributed or relicensed here. See UPSTREAM-LICENSE.txt and each header.
+Known mathematical resolution: Noga Alon; stronger results by Alon, Krivelevich, Sudakov.
+Original799formalization: Codex and GPT-5.6 Sol, as credited by its header.
+Imported753formalization credits Matteo Del Vecchio and Aristotle (Harmonic).
+Reproduction and API bridge: AItoBit with Codex. No new mathematical solution is claimed.

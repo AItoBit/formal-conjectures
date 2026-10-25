@@ -1,0 +1,16 @@
+{
+  "document": "Proof.md",
+  "reviewer": "/root/audit",
+  "date": "2026-10-25",
+  "result": "PASS",
+  "checks": [
+    "Heavy-color groups are independent and use distinct colors",
+    "Residual lists retain at least R+1 available colors",
+    "Incidence counting implies Hall's condition",
+    "q=1 and R=1 terminate with empty remainder",
+    "Natural-number threshold minimum is nonempty and attained",
+    "One deterministic threshold is sublinear",
+    "Clique union bound tends to zero for ceil(3 log2 n)"
+  ],
+  "scope": "Original little-o assertion only; no sharper quantitative claim"
+}

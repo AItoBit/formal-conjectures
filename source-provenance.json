@@ -1,0 +1,192 @@
+{
+  "repository": "https://github.com/plby/lean-proofs",
+  "commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "modules": [
+    {
+      "path": "src/latest/ErdosProblems/Erdos1037.lean",
+      "blob": "6c38bf233699e7984de1c06cb0170596e89191e4",
+      "sha256": "8dff656eab607e750e9a79ce7409d0546c3b2135122c4a3d0232c9115bf28dc6",
+      "bytes": 135130,
+      "lines": 2371,
+      "local_imports": [],
+      "all_imports": [
+        "Mathlib"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/Util/Ramsey.lean",
+      "blob": "88c2e2d94c829f8cbe532f2375945e731eb3f07b",
+      "sha256": "c1269d71fcd105835310b53e87a588fcb5628f87a76c9f16d7a007697f77b82a",
+      "bytes": 14293,
+      "lines": 340,
+      "local_imports": [],
+      "all_imports": [
+        "Mathlib"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos799/Asymptotic.lean",
+      "blob": "e2405047744ca7890350f44dd4d2426880d53a11",
+      "sha256": "34b206b4c76bbec37931a22b5a516e0f5be3b1e4b1a3ef14c5e7a78622ab0c8c",
+      "bytes": 8231,
+      "lines": 193,
+      "local_imports": [
+        "ErdosProblems.Erdos1037",
+        "Util.Ramsey"
+      ],
+      "all_imports": [
+        "ErdosProblems.Erdos1037",
+        "Util.Ramsey"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos799/Density.lean",
+      "blob": "7383eb81e5c12ecbd86356e576cd1b1987d6f0f9",
+      "sha256": "a57e7a7f4e669b84f6019ed9933f8bbcbbc937b2a8e4efbb8ef1d9cd7b16ed67",
+      "bytes": 5163,
+      "lines": 134,
+      "local_imports": [
+        "ErdosProblems.Erdos1037"
+      ],
+      "all_imports": [
+        "ErdosProblems.Erdos1037"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos753.lean",
+      "blob": "4eed4502f3b22ede815608832016d56b6d6c7174",
+      "sha256": "f128d63bdb655163c329dc04db1c6a48236bfd675dc925db7c7bc1fe37c0606d",
+      "bytes": 28424,
+      "lines": 601,
+      "local_imports": [],
+      "all_imports": [
+        "Mathlib.Algebra.Order.Ring.Star",
+        "Mathlib.Analysis.Complex.ExponentialBounds",
+        "Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics",
+        "Mathlib.Combinatorics.Hall.Basic",
+        "Mathlib.Combinatorics.SimpleGraph.Coloring.Vertex",
+        "Mathlib.Data.Int.Star",
+        "Mathlib.Algebra.Order.Star.Real"
+      ],
+      "license_notes": [
+        "Explicit Apache license notice present"
+      ],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos799/HeavyColor.lean",
+      "blob": "c95f1f9dc82866fa918d2936bcbed017ba57a51c",
+      "sha256": "892c413ed6c6a962a3120790bae0f680a8071fee2989c08bc2735bdbcbad0047",
+      "bytes": 12423,
+      "lines": 301,
+      "local_imports": [
+        "ErdosProblems.Erdos753"
+      ],
+      "all_imports": [
+        "ErdosProblems.Erdos753",
+        "Mathlib.Combinatorics.SimpleGraph.Clique",
+        "Mathlib.Order.Preorder.Finite"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos88/Foundations.lean",
+      "blob": "b3fff2e6942301813e9ca0bb42ac56a52233a042",
+      "sha256": "275e3a17beec2d6a4c921791bc29629cc367f5d8d17319c95ef59a7b59691d24",
+      "bytes": 6715,
+      "lines": 163,
+      "local_imports": [],
+      "all_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Log.Base",
+        "Mathlib.Combinatorics.SimpleGraph.Clique",
+        "Mathlib.Combinatorics.SimpleGraph.Finite",
+        "Mathlib.Tactic.FieldSimp",
+        "Mathlib.Tactic.Ring"
+      ],
+      "license_notes": [
+        "Explicit Apache license notice present"
+      ],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos88/FiniteES.lean",
+      "blob": "8d8baaeb6bcacd071aad8e43f6e2913213cb5dea",
+      "sha256": "0e28b209e2c8b7600297aec1d95f027cfa9d434ebe23dde7848f65125bb279d1",
+      "bytes": 49378,
+      "lines": 1132,
+      "local_imports": [
+        "ErdosProblems.Erdos88.Foundations",
+        "Util.Ramsey"
+      ],
+      "all_imports": [
+        "Mathlib",
+        "ErdosProblems.Erdos88.Foundations",
+        "Util.Ramsey"
+      ],
+      "license_notes": [
+        "Explicit Apache license notice present"
+      ],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos799/Ramsey.lean",
+      "blob": "e7ba48b9ea871e5636ee918f090d54abe5d5f929",
+      "sha256": "7554b26759a0a0ac84a012570a6d3021af7589f53f7d02d16a611eedbb2acc65",
+      "bytes": 803,
+      "lines": 20,
+      "local_imports": [
+        "ErdosProblems.Erdos88.FiniteES"
+      ],
+      "all_imports": [
+        "ErdosProblems.Erdos88.FiniteES"
+      ],
+      "license_notes": [],
+      "flagged_tokens": []
+    },
+    {
+      "path": "src/latest/ErdosProblems/Erdos799.lean",
+      "blob": "8cb172e24a63028eb8f91fdebd61d96bf2e9127f",
+      "sha256": "6abfbacf79ccd7a01931867cbdc9dacd0d6317dbdbdce8ff252bec87ffa860c8",
+      "bytes": 5308,
+      "lines": 140,
+      "local_imports": [
+        "ErdosProblems.Erdos799.Asymptotic",
+        "ErdosProblems.Erdos799.Density",
+        "ErdosProblems.Erdos799.HeavyColor",
+        "ErdosProblems.Erdos799.Ramsey"
+      ],
+      "all_imports": [
+        "ErdosProblems.Erdos799.Asymptotic",
+        "ErdosProblems.Erdos799.Density",
+        "ErdosProblems.Erdos799.HeavyColor",
+        "ErdosProblems.Erdos799.Ramsey"
+      ],
+      "license_notes": [
+        "Explicit Apache license notice present"
+      ],
+      "flagged_tokens": []
+    }
+  ],
+  "topological_order": [
+    "ErdosProblems.Erdos1037",
+    "Util.Ramsey",
+    "ErdosProblems.Erdos799.Asymptotic",
+    "ErdosProblems.Erdos799.Density",
+    "ErdosProblems.Erdos753",
+    "ErdosProblems.Erdos799.HeavyColor",
+    "ErdosProblems.Erdos88.Foundations",
+    "ErdosProblems.Erdos88.FiniteES",
+    "ErdosProblems.Erdos799.Ramsey",
+    "ErdosProblems.Erdos799"
+  ],
+  "license_notice": "UPSTREAM-LICENSE.txt reproduces src/latest/LICENSE. It says only some external files are Apache-licensed and is not a blanket grant. Per-file notices are recorded above; unmarked files remain license-unresolved."
+}

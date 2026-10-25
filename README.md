@@ -1,151 +1,50 @@
-# Formal Conjectures
+# Erdős799: existing complete proof reproduced
 
-[![.github/workflows/push_master.yml](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml/badge.svg)](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml)
-[![arXiv](https://img.shields.io/badge/arXiv-2605.13171-b31b1b.svg)](https://arxiv.org/abs/2605.13171)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/google-deepmind/formal-conjectures)
-[![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+The original question has an affirmative answer. There is a deterministic
+function b(n)=o(n) such that the fraction of labelled graphs G on n vertices
+with list chromatic number at most b(n) tends to one.
 
-A collection of formalised statements of conjectures in
-[Lean](https://leanprover.github.io/lean4/doc/whatIsLean.html), using
-[mathlib](https://github.com/leanprover-community/mathlib4).
+The list chromatic number quantifies over every assignment of k-element lists,
+and requires a proper coloring chosen from those lists. All graph fractions
+use the uniform distribution on labelled graphs, equivalently G(n,1/2).
+This package reproduces the known solution; it makes no novelty claim.
 
-Explore the docs: [Formal Conjectures Documentation](https://google-deepmind.github.io/formal-conjectures/)
+See [Proof.md](Proof.md) for a complete mathematical argument for the original
+little-o assertion, corresponding to the Ramsey/heavy-color route.
 
-Join our [channel on the leanprover Zulip](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+The pinned source proves the full original little-o question using a
+logarithmic clique cutoff, finite Ramsey theory, heavy-color packing, Hall's
+theorem and a slow diagonal Ramsey bound. Its exceptional graph density tends
+to zero. It does not formalize the sharper quantitative Alon log-log bound,
+AKS order n/log n, Kahn leading asymptotic, or sparse graph variants.
 
-## Goals
+## Sources
 
-While there is a growing corpus of formalised theorems including proofs, there
-is a lack of open conjectures where only the statement has been formalised. This
-would be useful for a few reasons. It could
+- Problem: https://www.erdosproblems.com/forum/thread/799
+- Alon1992: https://web.math.princeton.edu/~nalon/PDFS/choice.pdf
+- Alon–Krivelevich–Sudakov1999: https://web.math.princeton.edu/~nalon/PDFS/colaks9.pdf
+- Existing statement PR: https://github.com/google-deepmind/formal-conjectures/pull/6371
+- Original source: https://github.com/plby/lean-proofs/blob/8822f7ddef30fadbd92e1c6ab4ed897af356af5e/src/latest/ErdosProblems/Erdos799.lean
 
-*   Become a great benchmark for automated theorem provers and automated
-    formalisation tools.
-*   Help clarify the precise meaning of conjectures through formalisation.
-*   Encourage the expansion of `mathlib` by highlighting needed definitions.
+## Reproduce
 
-It is our hope that this initiative will form the seed of a much richer dataset of
-formalised conjectures.
+Install the exact toolchain, then run:
 
-### Note on Formalisation Accuracy
+    python prepare.py
+    lake exe cache get
+    python verify.py
 
-Formalizing mathematical statements without proofs is inherently challenging.
-Subtle inaccuracies can arise where the formal statement might not perfectly
-capture the nuances of the original conjecture. To mitigate this issue, we will
-rely on careful human review of contributions, and plan to periodically leverage
-AlphaProof to help identify potential misformalisations.
+Lean4.33.0; Mathlib db584cd6d46c92f209a44c0f1c829460d327499d.
+Ten original modules,5395lines, are fetched at an immutable commit and checked
+against individual SHA256 hashes. They are not included in the public package
+because their license notices differ. New files are Apache2.0.
 
-## Contributing
+The verifier builds the complete proof and checks the principal theorem and
+bridges for axioms beyond propext, Classical.choice and Quot.sound. Delivered
+Lean sources contain no proof holes or native_decide. The bridge uses the
+current shared SimpleGraph list-coloring definitions rather than importing a
+problem statement from formal-conjectures. Finite choosability witnesses
+exclude empty-infimum shortcuts. See source-audit.md for the quantifier audit.
 
-Contributions are most welcome — consider adding (or even just opening an issue
-describing) your favourite conjecture. See [CONTRIBUTING.md](./CONTRIBUTING.md)
-for the full contribution guide, including ways to contribute, the
-step-by-step process, file structure conventions, attribute usage, and style
-guidelines.
-
-## Usage, Structure & Features
-
-This is a Lean 4 project managed with `lake` and a dependency `mathlib`. You
-first need to
-[install elan, lake, lean and if you want vscode](https://leanprover-community.github.io/get_started.html)
-and then run
-
-```bash
-lake exe cache get
-lake build
-```
-
-### Directory structure
-
-The directory structure is organised by the type of sources of the conjectures.
-There are two special directories:
-
--   `FormalConjecturesUtil` contains utilities like the
-    [`category` attribute](./FormalConjecturesUtil/Attributes/Basic.lean), the
-    [`question` attribute](./FormalConjecturesUtil/Attributes/Basic.lean) and some
-    linters.
--   `FormalConjecturesForMathlib` contains code potentially suitable to be upstreamed to
-    [mathlib](https://github.com/leanprover-community/mathlib4). Here we follow
-    mathlib's directory structure.
-
-For details on the `@[category]`, `@[formal_proof]`, `@[AMS]`, `@[question]` attributes
-that statements in this repository use, see
-[CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## Versioning
-
-This repo will track the monthly tagged releases of mathlib (which correspond to
-Lean releases), rather than tracking mathlib master.
-
-To minimize friction when adding problem statements that need definitions that
-are not yet in mathlib, such definitions can be added to the `FormalConjecturesForMathlib`
-directory. This ensures that the addition of these problems to
-formal-conjectures is not locked to the mathlib release cadence.
-
-When `lean-toolchain` is updated on `main`, a GitHub Actions workflow
-automatically adds a git tag of the form `v4.{X}.{Y}`, following mathlib's
-tagging convention.
-
-Stable benchmark snapshots are tagged using the format
-`bench-v{N}-lean4.{X}.{Y}`, where:
-
--   **`v{N}` (Benchmark version):** Identifies the set of problems included in
-    the benchmark. The benchmark version is bumped whenever problems are added,
-    removed, or when misformalizations are corrected.
--   **`lean4.{X}.{Y}` (Lean version):** Identifies the Lean 4 toolchain
-    version used for that snapshot.
-
-Tags are immutable: fixes to misformalizations are never patched into an existing
-benchmark version but instead go into `v{N+1}`.
-
-## Citing formal-conjectures
-If your work has used formal-conjectures, please consider citing it via
-```
-@misc{FormalConjectures,
-  author       = {{The Formal Conjectures Authors}},
-  title        = {{T}he {F}ormal {C}onjectures {R}epository},
-  year         = {2025},
-  url          = {https://github.com/google-deepmind/formal-conjectures},
-}
-
-@article{FormalConjecturesPaper,
-  authors = {Firsching, Moritz and Lezeau, Paul and Mercuri, Salvatore
-    and Horv{\'a}th, Mikl{\'o}s Z and Dillies, Ya{\"e}l and S{\"o}nne, Calle and Wieser, Eric and
-    Zhang, Fred and Hubert, Thomas and Ag{\"u}era y Arcas, Blaise and Kohli, Pushmeet},
-  title = {{F}ormal {C}onjectures: {A}n {O}pen and {E}volving {B}enchmark for {V}erified {D}iscovery in {M}athematics},
-  year = {2026},
-  url = {https://arxiv.org/abs/2605.13171v1},
-}
-```
-
-## Licensing
-
-Copyright 2025 The Formal Conjectures Authors. All software is licensed under the Apache License,
-Version 2.0 (Apache 2.0); you may not use this file except in compliance with
-the Apache 2.0 license. You may obtain a copy of the Apache 2.0 license at:
-https://www.apache.org/licenses/LICENSE-2.0
-
-All other materials are licensed under the Creative Commons Attribution 4.0
-International License (CC-BY). You may obtain a copy of the CC-BY license at:
-https://creativecommons.org/licenses/by/4.0/legalcode.
-
-The content may be based on third party sources and may in some cases include
-third party content. The original source for each conjecture is indicated by a
-URL within the source file. Third party content may be subject to different
-licensing requirements. In particular:
-
--   Material from Wikipedia articles, MathOverflow and the OEIS is released under the
-    Creative Commons Attribution-Share-Alike License 4.0.
--   Material from bbchallenge.org is used under the Creative Commons Attribution
-    4.0 International License.
--   Material from the Equational Theories Project is used under Apache-2.0.
--   Material from arXiv is used under the licence applicable to the relevant
-    paper, as indicated at the URL within the source file.
-
-Unless required by applicable law or agreed to in writing, all software and
-materials distributed here under the Apache 2.0 or CC-BY license are distributed
-on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-express or implied. See the licenses for the specific language governing
-permissions and limitations under those licenses.
-
-This is not an official Google product.
+The separate literature campaign is incomplete. Reading relevant theorem and
+proof sections is recorded as partial review, not full-paper review.

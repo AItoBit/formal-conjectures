@@ -1,0 +1,43 @@
+✔ [8706/8729] Built ListColoring799 (12s)
+✔ [8708/8729] Built Proportion799 (14s)
+✔ [8710/8729] Built ErdosProblems.Erdos88.Foundations (20s)
+ℹ [8711/8729] Built ErdosProblems.Erdos753 (24s)
+info: ErdosProblems/Erdos753.lean:598:0: 'Erdos753.not_erdos_753' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8712/8729] Built AuditProportion799 (14s)
+info: AuditProportion799.lean:3:0: 'SimpleGraph.proportion_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:4:0: 'SimpleGraph.proportion_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:5:0: 'SimpleGraph.proportion_true' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:6:0: 'SimpleGraph.proportion_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:7:0: 'SimpleGraph.proportion_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:8:0: 'SimpleGraph.proportion_not' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:9:0: 'SimpleGraph.proportion_equiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditProportion799.lean:10:0: 'SimpleGraph.proportion_relabel' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [8714/8729] Built ErdosProblems.Erdos799.HeavyColor (24s)
+✔ [8715/8729] Built Util.Ramsey (91s)
+ℹ [8717/8729] Built ErdosProblems.Erdos1037 (92s)
+info: ErdosProblems/Erdos1037.lean:2370:0: 'Erdos1037.not_erdos_1037' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [8718/8729] Built ErdosProblems.Erdos799.Density (30s)
+✔ [8719/8729] Built ErdosProblems.Erdos799.Asymptotic (32s)
+✔ [8720/8729] Built ErdosProblems.Erdos88.FiniteES (40s)
+✔ [8721/8729] Built ErdosProblems.Erdos799.Ramsey (22s)
+ℹ [8722/8729] Built ErdosProblems.Erdos799 (22s)
+info: ErdosProblems/Erdos799.lean:140:0: 'Erdos799.erdos_799' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8724/8729] Built Audit799 (23s)
+info: Audit799.lean:2:0: 'Erdos799.erdos_799' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:3:0: 'Erdos799.ramseyDiagonalBound_isLittleO' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:4:0: 'Erdos799.largeCliqueDensity_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:5:0: 'Erdos799.exceptionalDensity_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:6:0: 'Erdos799.isKChoosable_of_independent_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:7:0: 'Erdos799.hall_of_lower_list_size_of_upper_frequency' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:8:0: 'Erdos799.exists_independent_subset_of_ramsey_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:9:0: 'Erdos799.listChromaticNumber_le_ramseyDiagonalBound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:10:0: 'Erdos753.choosable_set_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit799.lean:11:0: 'Erdos1037.randomGraphMeasure_eq_card_div' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [8726/8729] Built Bridge799 (24s)
+ℹ [8728/8729] Built AuditBridge799 (21s)
+info: AuditBridge799.lean:2:0: 'Erdos799Bridge.choosable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditBridge799.lean:3:0: 'Erdos799Bridge.listChromaticNumber_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditBridge799.lean:4:0: 'Erdos799Bridge.graphDensity_eq_proportion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditBridge799.lean:5:0: 'Erdos799Bridge.listChromaticNumber_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: AuditBridge799.lean:6:0: 'Erdos799Bridge.erdos_799' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8729 jobs).

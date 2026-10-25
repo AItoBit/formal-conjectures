@@ -1,0 +1,8 @@
+'SimpleGraph.proportion_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_true' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_not' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_equiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SimpleGraph.proportion_relabel' depends on axioms: [propext, Classical.choice, Quot.sound]

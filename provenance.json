@@ -1,0 +1,41 @@
+{
+  "problem": 799,
+  "date": "2026-10-25",
+  "outcome": "COMPLETE EXISTING ORIGINAL-PROBLEM PROOF REPRODUCED",
+  "novelty": false,
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "source_modules": 10,
+  "source_lines": 5395,
+  "lean": "4.33.0",
+  "mathlib": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "command": "python verify.py",
+  "exit_code": 0,
+  "axiom_reports": 23,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "repository_build": {
+    "command": "lake --wfail build FormalConjecturesForMathlib",
+    "lean": "4.33.1",
+    "mathlib": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "exit_code": 0,
+    "jobs": 8958
+  },
+  "principal_targets": [
+    "Erdos799.erdos_799",
+    "Erdos799Bridge.erdos_799",
+    "Erdos799Bridge.listChromaticNumber_attained"
+  ],
+  "existing_statement_pr": "https://github.com/google-deepmind/formal-conjectures/pull/6371",
+  "source_redistributed": false,
+  "limits": [
+    "Sharper quantitative bounds not formalized",
+    "Literature review below100paper default"
+  ],
+  "source_bytes": "UTF8 LF exactly matching checked files",
+  "build_jobs": 8729,
+  "supporting_pr": "https://github.com/google-deepmind/formal-conjectures/pull/7617",
+  "supporting_pr_head": "6ca43cf52fbb49ab840807982f52d98fac004fea"
+}
