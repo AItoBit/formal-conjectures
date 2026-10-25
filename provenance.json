@@ -1,0 +1,56 @@
+{
+  "problem": 797,
+  "date": "2026-10-25",
+  "outcome": "COMPLETE EXISTING ORIGINAL-PROBLEM PROOF REPRODUCED",
+  "novelty": false,
+  "informal_authors": [
+    "Noga Alon",
+    "Colin McDiarmid",
+    "Bruce Reed"
+  ],
+  "original_formal_authors": [
+    "Codex",
+    "GPT-5.6 Sol"
+  ],
+  "source_repository": "plby/lean-proofs",
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "source_sha256": "069c7310c36492867fdc8492041022a2b5d64f366db29cea253edb22025317a5",
+  "source_lines": 4006,
+  "lean": "4.33.0",
+  "mathlib": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "command": "python verify.py",
+  "exit_code": 0,
+  "build_jobs": 2051,
+  "axiom_reports": 25,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "repository_build": {
+    "command": "lake --wfail build FormalConjecturesForMathlib",
+    "lean": "4.33.1",
+    "mathlib": "0df444a360eaa60ab8c11dca51a86af692955474",
+    "exit_code": 0,
+    "jobs": 8958
+  },
+  "principal_targets": [
+    "Erdos797.erdos_797",
+    "Erdos797Bounds.bounds",
+    "Erdos797Statement.parts_i",
+    "Erdos797Statement.parts_ii",
+    "Erdos797Statement.f_spec"
+  ],
+  "supporting_pr": "https://github.com/google-deepmind/formal-conjectures/pull/7616",
+  "supporting_pr_head": "cf41f7cc89ede35f1f50034acc8c33932a1197e0",
+  "existing_statement_pr": "https://github.com/google-deepmind/formal-conjectures/pull/6340",
+  "limits": [
+    "Not an exact asymptotic closing the logarithmic gap",
+    "Not the best numerical constant",
+    "Not a formalization of every1991paper variant",
+    "100-paper literature review incomplete"
+  ],
+  "source_redistributed": false,
+  "raw_license": "No license grant located; source fetched with immutable commit and SHA256.",
+  "publication_source_bytes": "UTF8 with LF, exactly as checked by integrated verifier"
+}

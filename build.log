@@ -1,0 +1,7 @@
+ℹ [1689/1791] Replayed Erdos797
+info: Erdos797.lean:4002:0: 'Erdos797.erdos_797' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [2046/2051] Replayed Bounds797
+info: Bounds797.lean:94:0: 'Erdos797Bounds.upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Bounds797.lean:95:0: 'Erdos797Bounds.lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Bounds797.lean:96:0: 'Erdos797Bounds.bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (2051 jobs).

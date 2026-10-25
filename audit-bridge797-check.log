@@ -1,0 +1,5 @@
+'Erdos797Statement.acyclicColorable_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos797Statement.f_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos797Statement.parts_i' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos797Statement.parts_ii' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos797Statement.f_spec' depends on axioms: [propext, Classical.choice, Quot.sound]

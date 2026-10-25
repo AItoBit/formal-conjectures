@@ -1,0 +1,67 @@
+{
+  "checked_date": "2026-10-25",
+  "source_repository": "https://github.com/plby/lean-proofs",
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "source_path": "src/latest/ErdosProblems/Erdos797.lean",
+  "source_blob": "083a8b2e2b079a1cfdd78bcab79bdfc3aa3bcb22",
+  "source_unchanged": true,
+  "source_lines": 4006,
+  "sha256": {
+    "Erdos797.lean": "069c7310c36492867fdc8492041022a2b5d64f366db29cea253edb22025317a5",
+    "Audit797.lean": "e96f6e7b71c124d8fc3c483794b1e6cd3a12dc8135bef4b063d098710a50ab14",
+    "Bounds797.lean": "ba400718a597fa539c5575cc9c883cee2c2266f3db430f647603e2b3dcc6a79e"
+  },
+  "lean_version": "Lean (version 4.33.0, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)",
+  "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "cwd": "C:\\Users\\Asus\\Documents\\Codex\\2026-10-24\\https-www-erdosproblems-com-forum-thread-2\\work",
+  "commands": [
+    [
+      "lean",
+      "-o",
+      "Erdos797.olean",
+      "Erdos797.lean"
+    ],
+    [
+      "lean",
+      "Audit797.lean"
+    ],
+    [
+      "lean",
+      "-o",
+      "Bounds797.olean",
+      "Bounds797.lean"
+    ]
+  ],
+  "logs": [
+    "erdos797-reproduction.log",
+    "audit797-check.log",
+    "bounds797-check.log"
+  ],
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "raw_audited_endpoints": [
+    "Erdos797.erdos_797",
+    "Erdos797.UpperBound.extremalAcyclicNumber_cube_le",
+    "Erdos797.LowerBound.fourth_le_log_mul_extremal_cube",
+    "Erdos797.extremalAcyclicNumber_isLittleO_quadratic",
+    "Erdos797.LowerBound.exists_lower_graph",
+    "Erdos797.LowerBound.extremalAcyclicNumber_spec",
+    "Erdos797.finite_local_lemma"
+  ],
+  "bounds_audited_endpoints": [
+    "Erdos797Bounds.upper_bound",
+    "Erdos797Bounds.lower_bound",
+    "Erdos797Bounds.bounds"
+  ],
+  "real_bounds": {
+    "lower_constant": "(Real.log 2 / (2:Real)^67)^(1/3:Real)",
+    "upper_constant": 1024,
+    "threshold": "max (Erdos797.LowerBound.lowerD 1) 2",
+    "formula": "c*d^(4/3)/(log d)^(1/3) <= extremalAcyclicNumber d <= C*d^(4/3)"
+  },
+  "scope": "Raw original acyclic-coloring extremal function and its exact real-power/log bounds. Parent graph-Coloring API bridge checked separately.",
+  "license_status": "No root license at pinned source commit. Local verification only; no original-source public republication."
+}

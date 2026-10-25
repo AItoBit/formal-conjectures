@@ -1,151 +1,75 @@
-# Formal Conjectures
+# Erdős797: complete existing proof reproduced
 
-[![.github/workflows/push_master.yml](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml/badge.svg)](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml)
-[![arXiv](https://img.shields.io/badge/arXiv-2605.13171-b31b1b.svg)](https://arxiv.org/abs/2605.13171)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/google-deepmind/formal-conjectures)
-[![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+For finite simple graphs, let f(d) be the least palette size that acyclically
+colours every graph of maximum degree at most d. A colouring is proper and
+no cycle uses at most two colours. All colours are available, not necessarily
+used. The source's exactly-d convention is equivalent: adjoin a disjoint
+star of degree d and restrict the resulting colouring to the original graph.
 
-A collection of formalised statements of conjectures in
-[Lean](https://leanprover.github.io/lean4/doc/whatIsLean.html), using
-[mathlib](https://github.com/leanprover-community/mathlib4).
+The verified conclusions are, for fixed positive c,C and all sufficiently
+large d:
 
-Explore the docs: [Formal Conjectures Documentation](https://google-deepmind.github.io/formal-conjectures/)
+    c*d^(4/3)/(log d)^(1/3) <= f(d) <= C*d^(4/3),
+    f(d) = o(d^2).
 
-Join our [channel on the leanprover Zulip](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+This reproduces the known resolution by Alon, McDiarmid and Reed. The pinned
+4,006-line source credits Codex and GPT-5.6 Sol. It proves exact cubic bounds,
+a finite local lemma, the lower graph construction, and the little-o result.
+This does not close the logarithmic gap between the upper and lower estimates
+or claim a new solution. The full paper's additional edge-colouring and
+excluded-subgraph variants are outside the delivered theorem scope.
 
-## Goals
+## Sources and exact bridge
 
-While there is a growing corpus of formalised theorems including proofs, there
-is a lack of open conjectures where only the statement has been formalised. This
-would be useful for a few reasons. It could
+- Problem: https://www.erdosproblems.com/forum/thread/797
+- Primary paper: https://doi.org/10.1002/rsa.3240020303
+- Existing statement PR: https://github.com/google-deepmind/formal-conjectures/pull/6340
+- Complete original Lean source: https://github.com/plby/lean-proofs/blob/8822f7ddef30fadbd92e1c6ab4ed897af356af5e/src/latest/ErdosProblems/Erdos797.lean
 
-*   Become a great benchmark for automated theorem provers and automated
-    formalisation tools.
-*   Help clarify the precise meaning of conjectures through formalisation.
-*   Encourage the expansion of `mathlib` by highlighting needed definitions.
+`Acyclic797.lean` introduces the reusable bundled `G.Coloring` API.
+`Statement797.lean` specifies the universal extremal function and both targets.
+`Bridge797.lean` proves equality with the original extremal function, both
+targets and an actual colouring guarantee at its least palette. This last
+theorem verifies nonemptiness/attainment, avoiding an empty natural infimum.
+`Bounds797.lean` converts the cubic bounds to real powers and natural logs.
+The constants can be C=1024 and c=(log(2)/2^67)^(1/3). The eventual lower
+bound holds for every degree beyond a fixed threshold, not just a subsequence.
 
-It is our hope that this initiative will form the seed of a much richer dataset of
-formalised conjectures.
+The shared chromatic number is extended-natural, so infinite graphs without
+a finite acyclic palette receive infinity. Finite graphs have a proved finite
+witness. Its finite bound characterization and comparison with the ordinary
+chromatic number are proved. Empty graphs and palettes are retained.
 
-### Note on Formalisation Accuracy
+## Reproduce
 
-Formalizing mathematical statements without proofs is inherently challenging.
-Subtle inaccuracies can arise where the formal statement might not perfectly
-capture the nuances of the original conjecture. To mitigate this issue, we will
-rely on careful human review of contributions, and plan to periodically leverage
-AlphaProof to help identify potential misformalisations.
+Install the exact toolchain in lean-toolchain, then run:
 
-## Contributing
+    python prepare.py
+    lake exe cache get
+    python verify.py
 
-Contributions are most welcome — consider adding (or even just opening an issue
-describing) your favourite conjecture. See [CONTRIBUTING.md](./CONTRIBUTING.md)
-for the full contribution guide, including ways to contribute, the
-step-by-step process, file structure conventions, attribute usage, and style
-guidelines.
+Pins: Lean4.33.0; Mathlib db584cd6d46c92f209a44c0f1c829460d327499d.
+The verifier builds all five libraries and audits25declared theorems, allowing
+only propext, Classical.choice and Quot.sound. No proof holes, additional
+mathematical axioms, unsafe declarations or native_decide occur in these sources.
+The original source is fetched with a fixed SHA-256; it is not redistributed
+because no source license grant was found. LICENSE covers only our wrapper/API.
 
-## Usage, Structure & Features
+## Proof mechanism
 
-This is a Lean 4 project managed with `lake` and a dependency `mathlib`. You
-first need to
-[install elan, lake, lean and if you want vscode](https://leanprover-community.github.io/get_started.html)
-and then run
+The upper proof uses independent random vertex colours. Four classes of bad
+events detect monochromatic edges, alternating short paths, selected
+bichromatic4cycles and repeated colours on pairs with many common neighbours.
+Exact finite-product counting proves their independence outside shared
+coordinates. A finite local lemma supplies a colouring avoiding all events;
+this excludes every bichromatic cycle and gives a cubic palette bound.
 
-```bash
-lake exe cache get
-lake build
-```
+The lower construction counts graphs and possible small colour partitions.
+Pairs of vertices within colour classes yield many edge-disjoint potential
+bichromatic4cycles. A counting bound prevents every small-palette colouring
+while keeping maximum degree controlled. Monotonicity interpolates scales.
+Positive cube roots and comparison of base-two integer logs with natural
+logs give the real estimates; the upper estimate yields little-o of d².
 
-### Directory structure
-
-The directory structure is organised by the type of sources of the conjectures.
-There are two special directories:
-
--   `FormalConjecturesUtil` contains utilities like the
-    [`category` attribute](./FormalConjecturesUtil/Attributes/Basic.lean), the
-    [`question` attribute](./FormalConjecturesUtil/Attributes/Basic.lean) and some
-    linters.
--   `FormalConjecturesForMathlib` contains code potentially suitable to be upstreamed to
-    [mathlib](https://github.com/leanprover-community/mathlib4). Here we follow
-    mathlib's directory structure.
-
-For details on the `@[category]`, `@[formal_proof]`, `@[AMS]`, `@[question]` attributes
-that statements in this repository use, see
-[CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## Versioning
-
-This repo will track the monthly tagged releases of mathlib (which correspond to
-Lean releases), rather than tracking mathlib master.
-
-To minimize friction when adding problem statements that need definitions that
-are not yet in mathlib, such definitions can be added to the `FormalConjecturesForMathlib`
-directory. This ensures that the addition of these problems to
-formal-conjectures is not locked to the mathlib release cadence.
-
-When `lean-toolchain` is updated on `main`, a GitHub Actions workflow
-automatically adds a git tag of the form `v4.{X}.{Y}`, following mathlib's
-tagging convention.
-
-Stable benchmark snapshots are tagged using the format
-`bench-v{N}-lean4.{X}.{Y}`, where:
-
--   **`v{N}` (Benchmark version):** Identifies the set of problems included in
-    the benchmark. The benchmark version is bumped whenever problems are added,
-    removed, or when misformalizations are corrected.
--   **`lean4.{X}.{Y}` (Lean version):** Identifies the Lean 4 toolchain
-    version used for that snapshot.
-
-Tags are immutable: fixes to misformalizations are never patched into an existing
-benchmark version but instead go into `v{N+1}`.
-
-## Citing formal-conjectures
-If your work has used formal-conjectures, please consider citing it via
-```
-@misc{FormalConjectures,
-  author       = {{The Formal Conjectures Authors}},
-  title        = {{T}he {F}ormal {C}onjectures {R}epository},
-  year         = {2025},
-  url          = {https://github.com/google-deepmind/formal-conjectures},
-}
-
-@article{FormalConjecturesPaper,
-  authors = {Firsching, Moritz and Lezeau, Paul and Mercuri, Salvatore
-    and Horv{\'a}th, Mikl{\'o}s Z and Dillies, Ya{\"e}l and S{\"o}nne, Calle and Wieser, Eric and
-    Zhang, Fred and Hubert, Thomas and Ag{\"u}era y Arcas, Blaise and Kohli, Pushmeet},
-  title = {{F}ormal {C}onjectures: {A}n {O}pen and {E}volving {B}enchmark for {V}erified {D}iscovery in {M}athematics},
-  year = {2026},
-  url = {https://arxiv.org/abs/2605.13171v1},
-}
-```
-
-## Licensing
-
-Copyright 2025 The Formal Conjectures Authors. All software is licensed under the Apache License,
-Version 2.0 (Apache 2.0); you may not use this file except in compliance with
-the Apache 2.0 license. You may obtain a copy of the Apache 2.0 license at:
-https://www.apache.org/licenses/LICENSE-2.0
-
-All other materials are licensed under the Creative Commons Attribution 4.0
-International License (CC-BY). You may obtain a copy of the CC-BY license at:
-https://creativecommons.org/licenses/by/4.0/legalcode.
-
-The content may be based on third party sources and may in some cases include
-third party content. The original source for each conjecture is indicated by a
-URL within the source file. Third party content may be subject to different
-licensing requirements. In particular:
-
--   Material from Wikipedia articles, MathOverflow and the OEIS is released under the
-    Creative Commons Attribution-Share-Alike License 4.0.
--   Material from bbchallenge.org is used under the Creative Commons Attribution
-    4.0 International License.
--   Material from the Equational Theories Project is used under Apache-2.0.
--   Material from arXiv is used under the licence applicable to the relevant
-    paper, as indicated at the URL within the source file.
-
-Unless required by applicable law or agreed to in writing, all software and
-materials distributed here under the Apache 2.0 or CC-BY license are distributed
-on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-express or implied. See the licenses for the specific language governing
-permissions and limitations under those licenses.
-
-This is not an official Google product.
+See source-audit.md for correspondence and verification limits. The separate
+literature campaign is incomplete; proof reproduction is not100-paper coverage.

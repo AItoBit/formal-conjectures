@@ -1,0 +1,101 @@
+Erdős 797: final statement/bridge/bounds audit
+Date: 2026-10-25
+
+Review roles and scope
+This is an independent source/interface review of the parent-authored
+Statement797.lean and Bridge797.lean and the construction-agent-authored
+Bounds797.lean. The shared Acyclic API was written by this reviewer, so its
+review below is explicitly an API SELF-REVIEW, not a second independent review.
+No full upstream compilation was repeated during this review.
+
+Files inspected
+outputs/erdos797-proof/Statement797.lean
+outputs/erdos797-proof/Bridge797.lean
+outputs/erdos797-proof/Bounds797.lean
+The two intended repository changes under C:/Users/Asus/Documents/Codex/work/
+fc797-01a16d47: new Coloring/Acyclic.lean and its umbrella import.
+
+Source comparison
+Primary problem/forum: https://www.erdosproblems.com/797 and /forum/thread/797.
+Primary paper: Alon, McDiarmid, Reed, Acyclic Coloring of Graphs (1991).
+Existing statement PR: https://github.com/google-deepmind/formal-conjectures/pull/6340
+Reviewed PR head: 52d885d781f531bdc7369e7e0e151ad438586c91.
+Its exact public 797.lean was fetched and compared with the local target.
+The question requires proper vertex coloring and absence of all bichromatic
+cycles; it asks for bounds on the extremal function, particularly little-o(d²).
+The primary finite/simple-graph convention and detailed original-source audit
+are recorded in work/797-audit.md, including honest partial-paper reading status.
+
+Statement fidelity
+Statement797.f is the least universal palette for finite simple graphs on Fin n
+with maximum degree at most d. Universally quantified n represents arbitrary
+finite vertex sets by relabelling. It does not impose connectedness, nonempty
+vertices, regularity, or any graph-size bound. Allowing unused colors correctly
+means at most k colors, without requiring surjectivity onto Fin k.
+The website's exact maximum degree convention is equivalent: adjoining a
+disjoint star with maximum degree d permits reduction from <=d to =d, and a
+coloring restricts back to the original graph. Degree zero consists of edgeless
+graphs. This equivalence is a mathematical source justification, not an extra
+proved theorem claimed in the local bridge.
+
+Bridge correctness and nonvacuity
+acyclicColorable_iff reconstructs the raw function predicate from bundled
+Coloring: properness is intrinsic, while the cycle vertex changes only between
+explicit and implicit binders. It preserves the quantification over every
+IsCycle closed walk and two colors which may coincide.
+f_eq proves equality of the complete palette-predicate sets under sInf; it does
+not replace the extremal function by an upper approximation.
+f_spec transports upstream extremalAcyclicNumber_spec, which follows from
+Nat.sInf_mem using the explicit all-degree palette bound
+64*(Nat.nthRoot 3 d+1)^4. Thus the natural infimum is nonvacuous for every d,
+including d=0. No false/default-zero infimum is used to obtain the estimates.
+The empty graph is harmless; nonempty edgeless graphs prevent zero available
+colors from becoming a universal palette.
+
+Real upper/lower bounds
+Bounds797.upper_bound correctly casts the proved natural cube inequality,
+then uses (d^(4/3))^3=d^4 and monotonicity of the cube on nonnegative values.
+The constant is C=1024 and the assumption is d>=1.
+The lower constant is c=(log(2)/2^67)^(1/3), strictly positive. For d at least
+max(lowerD 1,2), log(d)>0 and the upstream cube lower bound applies. The
+inequality Nat.log 2 d <= log(d)/log(2) enlarges the right-hand side of that
+cube bound in the correct direction. Multiplication/division uses positive
+log(2), log(d), and 2^67. Taking cube roots gives exactly
+c*d^(4/3)/(log d)^(1/3) <= f(d). The common eventual threshold legitimately
+combines this with the upper estimate; constants do not depend on d.
+parts_i is precisely PR6340's real-power estimate after the proved f_eq.
+parts_ii is precisely the affirmative little-o clause after f_eq. The True
+biconditional represents the affirmative answer; no additional hypotheses
+weaken the result. These statements retain the logarithmic gap and do not
+assert an exact asymptotic equivalent or optimal constants. PR6340's separate
+greedy and historical lower-bound variants are not extra verified endpoints
+in this local bridge, nor are the paper's edge-coloring variants.
+
+API SELF-REVIEW and repository scope
+The repository has exactly the intended new module and one umbrella-import
+change, with no edits to existing problem statements. The module defines
+Coloring.IsAcyclic, AcyclicColorable, and ENat acyclicChromaticNumber. Infinity
+represents absence of any finite palette. The proved finite-threshold iff,
+non-top iff existence, comparison with chromaticNumber, and finite-graph witness
+establish the claimed numeric semantics; no use of ENat.toNat hides infinity.
+Injective recoloring preserves the predicate even for empty palettes; inside
+a cycle the local color c(v) provides the required Nonempty witness. The finite
+graph proof uses injective coloring and the fact that a genuine cycle has at
+least three distinct supported vertices. No assumption forbidding ordinary
+cycles or restricting to induced cycles is introduced.
+The inspected new module, bridge, statement, and bounds contain no proof holes
+or explicit added axioms. The shared API was checked separately under Lean
+4.33.0 with only propext, Classical.choice, Quot.sound in all ten reports.
+The construction agent reports standard-axiom bridge compilation. Parent final
+project build and repository-version CI remain separately recorded evidence;
+this note does not substitute for those runs.
+
+Provenance and verdict
+The upstream proof is pinned to plby/lean-proofs commit
+8822f7ddef30fadbd92e1c6ab4ed897af356af5e. Mathematical credit is
+Alon-McDiarmid-Reed; upstream formal credits are Codex/GPT-5.6 Sol/OpenAI Codex.
+The raw upstream source remains fetch-only; no license grant or permission to
+relicense it is inferred. The shared API uses newly written short proofs.
+Verdict: no source-fidelity or logical-interface defect found in the inspected
+targets and bridges. Supporting API publication addresses PR6340's reusable
+coloring-definition review request without duplicating its main statement.

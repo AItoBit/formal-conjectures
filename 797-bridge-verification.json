@@ -1,0 +1,67 @@
+{
+  "lean_version": "4.33.0",
+  "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "cwd": "C:\\Users\\Asus\\Documents\\Codex\\2026-10-24\\https-www-erdosproblems-com-forum-thread-2\\work",
+  "source_sha256": {
+    "Acyclic797.lean": "01c92a063d0d3f4ce2485da8a5ff95437a358bfa11f9acb4addd9468ad44044e",
+    "Statement797.lean": "acf23912fb030234848f9a24cd9dc1527d0c62270d42587f339950bb58a94b8b",
+    "Bridge797.lean": "dbbd61e121915b2ed54aa100135624404cb5a94320df1cc3abfcd7a2e3934e14",
+    "AuditBridge797.lean": "6c17361aa61bcf4735178fc2e4130c3d89ebf76737aafe1fe4900938b68e1421"
+  },
+  "shared_api_source": "api797/Acyclic.lean",
+  "shared_api_copy_identical": true,
+  "commands": [
+    [
+      "lean",
+      "-o",
+      "Acyclic797.olean",
+      "Acyclic797.lean"
+    ],
+    [
+      "lean",
+      "-o",
+      "Statement797.olean",
+      "Statement797.lean"
+    ],
+    [
+      "lean",
+      "-o",
+      "Bridge797.olean",
+      "Bridge797.lean"
+    ],
+    [
+      "lean",
+      "AuditBridge797.lean"
+    ]
+  ],
+  "logs": [
+    "acyclic797-recheck.log",
+    "statement797-check.log",
+    "bridge797-check.log",
+    "audit-bridge797-check.log"
+  ],
+  "status": "All four final checks passed, warning-free.",
+  "bridge_elaboration_repairs": [
+    "Use Set.mem_ofPred_eq rather than deprecated alias.",
+    "Open scoped Classical only around f_spec to elaborate its maxDegree hypothesis without adding a mathematical assumption."
+  ],
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "audited_endpoints": [
+    "Erdos797Statement.acyclicColorable_iff",
+    "Erdos797Statement.f_eq",
+    "Erdos797Statement.parts_i",
+    "Erdos797Statement.parts_ii",
+    "Erdos797Statement.f_spec"
+  ],
+  "scope": [
+    "Exact acyclic-colorability equivalence to the original predicate.",
+    "Equality of extremal functions for every natural degree bound.",
+    "Complete eventual real-power and real-logarithm upper/lower pair.",
+    "Little-o quadratic question.",
+    "The minimum palette is an actual universal acyclic-coloring bound."
+  ]
+}

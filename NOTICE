@@ -1,0 +1,6 @@
+Apache2.0 applies to the new API and reproduction wrapper files.
+The fetched external Erdos797.lean file has no license grant located in its
+pinned repository; it is not redistributed or relicensed by this project.
+Mathematics: Noga Alon, Colin McDiarmid, Bruce Reed.
+Original formalization: Codex and GPT-5.6 Sol, as credited by the source.
+Reproduction, API and bridge: AItoBit with Codex. No novelty is claimed.
