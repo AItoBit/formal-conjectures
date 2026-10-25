@@ -34,5 +34,6 @@
     "Cube-root lower correction not formalized",
     "100-paper literature campaign incomplete"
   ],
-  "source_redistributed": false
+  "source_redistributed": false,
+  "publication_line_endings": "Own Lean files normalized to LF; no mathematical or code changes. Original reproduction hashes retained in the direct-check reports."
 }
