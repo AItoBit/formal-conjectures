@@ -1,151 +1,78 @@
-# Formal Conjectures
+# Negative answer to the explicit asymptotic question in Erdős problem 791
 
-[![.github/workflows/push_master.yml](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml/badge.svg)](https://github.com/google-deepmind/formal-conjectures/actions/workflows/build-and-docs.yml)
-[![arXiv](https://img.shields.io/badge/arXiv-2605.13171-b31b1b.svg)](https://arxiv.org/abs/2605.13171)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/google-deepmind/formal-conjectures)
-[![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+This development proves **g(n) is not asymptotic to 2 sqrt(n)**. It does not
+determine the sharp asymptotic constant or resolve the full estimation problem.
+The negative answer is known: Mrose (1979). We formalize the simpler
+seven-segment presentation in Kohonen (2017), Example 2.
 
-A collection of formalised statements of conjectures in
-[Lean](https://leanprover.github.io/lean4/doc/whatIsLean.html), using
-[mathlib](https://github.com/leanprover-community/mathlib4).
+## Exact statement
 
-Explore the docs: [Formal Conjectures Documentation](https://google-deepmind.github.io/formal-conjectures/)
+`IsBasis n A` means `A` is a finite subset of the natural interval `[0,n]`
+and every `m <= n` equals `a+b` for members of `A`. Repeated summands are
+allowed. The necessary zero counts toward cardinality. `g n` is the least
+possible full cardinality, implemented using `Nat.find` with a proved witness.
 
-Join our [channel on the leanprover Zulip](https://leanprover.zulipchat.com/#narrow/channel/524981-Formal-conjectures)
+The final theorem `Erdos791.not_erdos_791` has no assumptions and proves
+that `g(n)/sqrt(n)` does not tend to 2 at infinity. This is the usual negative
+answer to `g(n) ~ 2 sqrt(n)`. In particular, the definition is not replaced
+by a convenient proxy or an unspecified function.
 
-## Goals
+## Mathematical proof
 
-While there is a growing corpus of formalised theorems including proofs, there
-is a lack of open conjectures where only the statement has been formalised. This
-would be useful for a few reasons. It could
+For an integer t >= 2, put V=[0,t], H={t i:0<=i<t}, and
+S={(t+1)i:0<=i<t}. Take the union of V translated by 0,6t^2,10t^2;
+H translated by 0,t^2,2t^2; and S translated by 3t^2.
+The resulting A has at most 7(t+1) elements.
 
-*   Become a great benchmark for automated theorem provers and automated
-    formalisation tools.
-*   Help clarify the precise meaning of conjectures through formalisation.
-*   Encourage the expansion of `mathlib` by highlighting needed definitions.
+Both V+H and V+S cover Q=[0,t^2-1], by division by t and t+1 respectively.
+For P=H+S, P union (P+t^2) covers Q+t^2. To see this, write r=a t+b<t^2.
+If b>a, take j=b and i=t+a-b; then t i+(t+1)j=t^2+r.
+If b<=a, take j=b and i=a-b; then t i+(t+1)j+t^2=t^2+r.
+In both cases i,j<t.
 
-It is our hope that this initiative will form the seed of a much richer dataset of
-formalised conjectures.
+The V+H and V+S translates cover blocks 0,1,2,3,6,...,13, where block q
+means Q+q t^2. The H+S translates occur at blocks 3,4,5; the preceding
+parallelogram fact fills blocks 4 and 5. Thus A+A covers [0,14t^2-1].
+Filtering A by that endpoint preserves every representation, since both
+summands are nonnegative. Consequently g(14t^2-1)<=7(t+1).
 
-### Note on Formalisation Accuracy
+Suppose g(n)/sqrt(n) tends to 2. Beyond some N it exceeds 39/20.
+Choose t=N+100 and n=14t^2-1, so n>=N and sqrt(n)>=(37/10)t.
+Then g(n)>(39/20)(37/10)t=7.215t, while g(n)<=7t+7.
+These inequalities contradict t>=100.
 
-Formalizing mathematical statements without proofs is inherently challenging.
-Subtle inaccuracies can arise where the formal statement might not perfectly
-capture the nuances of the original conjecture. To mitigate this issue, we will
-rely on careful human review of contributions, and plan to periodically leverage
-AlphaProof to help identify potential misformalisations.
+## Files and verification
 
-## Contributing
+- `Construction791.lean`: elementary segment witnesses, cardinality and coverage.
+- `Endpoint791.lean`: the exact minimum and the analytic contradiction lemma.
+- `Main791.lean`: discharges the construction hypothesis and proves the result.
 
-Contributions are most welcome — consider adding (or even just opening an issue
-describing) your favourite conjecture. See [CONTRIBUTING.md](./CONTRIBUTING.md)
-for the full contribution guide, including ways to contribute, the
-step-by-step process, file structure conventions, attribute usage, and style
-guidelines.
+All three modules compiled with Lean 4.33.0 and canonical Mathlib commit
+db584cd6d46c92f209a44c0f1c829460d327499d. All seven printed axiom reports
+contain only `propext`, `Classical.choice`, and `Quot.sound`. No `sorry`,
+`admit`, custom axiom, `unsafe`, or `native_decide` occurs in the proof sources.
+An independent agent audited the correspondence with Kohonen's construction,
+the source problem, the quantifiers, zero, and the filtering argument.
 
-## Usage, Structure & Features
+To reproduce: `lake update`, `lake exe cache get Mathlib`, then `python verify.py`.
+The script compiles the three modules sequentially. `lake build Main791` also
+builds the development. See `verification.log` and `source-hashes.json`.
 
-This is a Lean 4 project managed with `lake` and a dependency `mathlib`. You
-first need to
-[install elan, lake, lean and if you want vscode](https://leanprover-community.github.io/get_started.html)
-and then run
+## Sources and provenance
 
-```bash
-lake exe cache get
-lake build
-```
+- Erdős problem 791: https://www.erdosproblems.com/791
+- Jukka Kohonen, *An improved lower bound for finite additive 2-bases*,
+  J. Number Theory 174 (2017), 518-524. https://arxiv.org/abs/1606.04770
+  Example 2 supplies the seven-segment construction used here.
+- Arnulf Mrose, *Untere Schranken für die Reichweiten von Extremalbasen
+  fester Ordnung*, Abh. Math. Sem. Univ. Hamburg 48 (1979), 118-124.
+  Original disproof, credited as prior work; no novelty claim.
 
-### Directory structure
+The Lean code was generated and checked using Codex with a construction agent
+and a separate source/proof auditor. This is a new formalization of an existing
+mathematical argument, not a new solution of the open sharp-estimate problem.
+Code license: Apache-2.0. Paper copyrights are unaffected.
 
-The directory structure is organised by the type of sources of the conjectures.
-There are two special directories:
-
--   `FormalConjecturesUtil` contains utilities like the
-    [`category` attribute](./FormalConjecturesUtil/Attributes/Basic.lean), the
-    [`question` attribute](./FormalConjecturesUtil/Attributes/Basic.lean) and some
-    linters.
--   `FormalConjecturesForMathlib` contains code potentially suitable to be upstreamed to
-    [mathlib](https://github.com/leanprover-community/mathlib4). Here we follow
-    mathlib's directory structure.
-
-For details on the `@[category]`, `@[formal_proof]`, `@[AMS]`, `@[question]` attributes
-that statements in this repository use, see
-[CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## Versioning
-
-This repo will track the monthly tagged releases of mathlib (which correspond to
-Lean releases), rather than tracking mathlib master.
-
-To minimize friction when adding problem statements that need definitions that
-are not yet in mathlib, such definitions can be added to the `FormalConjecturesForMathlib`
-directory. This ensures that the addition of these problems to
-formal-conjectures is not locked to the mathlib release cadence.
-
-When `lean-toolchain` is updated on `main`, a GitHub Actions workflow
-automatically adds a git tag of the form `v4.{X}.{Y}`, following mathlib's
-tagging convention.
-
-Stable benchmark snapshots are tagged using the format
-`bench-v{N}-lean4.{X}.{Y}`, where:
-
--   **`v{N}` (Benchmark version):** Identifies the set of problems included in
-    the benchmark. The benchmark version is bumped whenever problems are added,
-    removed, or when misformalizations are corrected.
--   **`lean4.{X}.{Y}` (Lean version):** Identifies the Lean 4 toolchain
-    version used for that snapshot.
-
-Tags are immutable: fixes to misformalizations are never patched into an existing
-benchmark version but instead go into `v{N+1}`.
-
-## Citing formal-conjectures
-If your work has used formal-conjectures, please consider citing it via
-```
-@misc{FormalConjectures,
-  author       = {{The Formal Conjectures Authors}},
-  title        = {{T}he {F}ormal {C}onjectures {R}epository},
-  year         = {2025},
-  url          = {https://github.com/google-deepmind/formal-conjectures},
-}
-
-@article{FormalConjecturesPaper,
-  authors = {Firsching, Moritz and Lezeau, Paul and Mercuri, Salvatore
-    and Horv{\'a}th, Mikl{\'o}s Z and Dillies, Ya{\"e}l and S{\"o}nne, Calle and Wieser, Eric and
-    Zhang, Fred and Hubert, Thomas and Ag{\"u}era y Arcas, Blaise and Kohli, Pushmeet},
-  title = {{F}ormal {C}onjectures: {A}n {O}pen and {E}volving {B}enchmark for {V}erified {D}iscovery in {M}athematics},
-  year = {2026},
-  url = {https://arxiv.org/abs/2605.13171v1},
-}
-```
-
-## Licensing
-
-Copyright 2025 The Formal Conjectures Authors. All software is licensed under the Apache License,
-Version 2.0 (Apache 2.0); you may not use this file except in compliance with
-the Apache 2.0 license. You may obtain a copy of the Apache 2.0 license at:
-https://www.apache.org/licenses/LICENSE-2.0
-
-All other materials are licensed under the Creative Commons Attribution 4.0
-International License (CC-BY). You may obtain a copy of the CC-BY license at:
-https://creativecommons.org/licenses/by/4.0/legalcode.
-
-The content may be based on third party sources and may in some cases include
-third party content. The original source for each conjecture is indicated by a
-URL within the source file. Third party content may be subject to different
-licensing requirements. In particular:
-
--   Material from Wikipedia articles, MathOverflow and the OEIS is released under the
-    Creative Commons Attribution-Share-Alike License 4.0.
--   Material from bbchallenge.org is used under the Creative Commons Attribution
-    4.0 International License.
--   Material from the Equational Theories Project is used under Apache-2.0.
--   Material from arXiv is used under the licence applicable to the relevant
-    paper, as indicated at the URL within the source file.
-
-Unless required by applicable law or agreed to in writing, all software and
-materials distributed here under the Apache 2.0 or CC-BY license are distributed
-on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-express or implied. See the licenses for the specific language governing
-permissions and limitations under those licenses.
-
-This is not an official Google product.
+Research coverage: 5 works discovered, 1 screened, 1 full-text reviewed for
+the relevant argument and proof structure, 1 used in this formal proof;
+1 unique arXiv paper. This is not a completed 100-paper literature campaign.
