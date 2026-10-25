@@ -1,0 +1,4 @@
+'Erdos795.erdos_795' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795.erdos_795_signed_error_isLittleO' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795.baseline_le_g' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795.primeAndSquareSet_distinctSubsetProducts' depends on axioms: [propext, Classical.choice, Quot.sound]

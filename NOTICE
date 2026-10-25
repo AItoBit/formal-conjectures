@@ -1,0 +1,9 @@
+The shared subset-sums predicates derive from problem350 of
+google-deepmind/formal-conjectures under Apache2.0. The Apache license here
+applies to the shared API and reproduction wrapper, not to the fetched
+Erdos795.lean source. No license grant was found for that external file;
+it is linked and hash-verified instead of redistributed or relicensed.
+
+Underlying mathematics: Paul Erdős and Rushil Raghavan.
+Pinned original formalization credits Codex and GPT-5.6 Sol.
+Reproduction, shared API and exact-statement bridge: AItoBit with Codex.

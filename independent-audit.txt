@@ -1,0 +1,95 @@
+Independent source-to-Lean audit: Erdős problem 795
+Date: 2026-10-25
+Scope: statement fidelity and proof-interface review; existing proof reproduction,
+not a claim of a new mathematical result or of formalizing the entire paper.
+
+Primary sources
+- https://www.erdosproblems.com/795
+- https://www.erdosproblems.com/forum/thread/795
+- Rushil Raghavan, Sharp Bounds for Sets with Distinct Subset Products,
+  https://arxiv.org/html/2501.02695v2 (26 February 2026), Question 1.2,
+  Example 1.1, and Theorems 1.3 and 1.4.
+The website's x in the little-o numerator is read as n, consistently with its
+single-variable question, the forum correction, and the primary paper.
+The paper uses f for the extremal function; the website and Lean use g.
+
+Original main question
+For A contained in [1,n], every two distinct subsets must have unequal products.
+The requested upper bound is pi(n) + pi(sqrt(n)) + o(sqrt(n)/log(n)).
+The source has no restriction to subsets of equal cardinality, disjoint subsets,
+nonempty subsets, or squarefree elements. All these distinctions matter.
+
+Upstream formalization audited
+Repository: https://github.com/plby/lean-proofs
+Commit: 8822f7ddef30fadbd92e1c6ab4ed897af356af5e
+Path: src/latest/ErdosProblems/Erdos795.lean
+The interval is exactly Finset.Icc 1 N. subsetProduct is the ordinary finite
+product, so the empty product is 1. DistinctSubsetProducts is injectivity on the
+entire powerset. In particular, an admissible set cannot contain 1, since its
+singleton and the empty subset would have equal products. This exclusion is a
+consequence, not an extra hypothesis. Zero is excluded by the interval.
+The finite maximum g is Finset.sup over all admissible subsets. Empty-set
+admissibility and an attained maximum are proved. At n=0 the interval is empty
+and g=0; no unexplained nonempty-maximum convention changes this value.
+Nat.primeCounting (Nat.sqrt n) counts precisely the primes at most real sqrt(n).
+
+Shared predicate and extremal-function bridge
+DistinctSubsetProducts.lean defines products for arbitrary commutative monoids,
+including naturals, and generates the additive twins by to_additive. The finite
+predicate quantifies over all subsets and is equivalent to product injectivity
+on the powerset. Its deciding instance does not alter its proposition.
+Statement795.HasDistinctSubsetProducts abbreviates this finite predicate.
+Bridge795.distinctSubsetProducts_iff establishes equivalence with upstream.
+Statement795.g uses sSup of the possible cardinalities, matching PR #6338's
+presentation. Bridge795.g_eq proves equality with the upstream finite maximum:
+the supremum set is nonempty (empty subset, cardinality zero), bounded by n,
+and both inequalities are obtained from exactly the same admissible subsets.
+The argument covers every n, including zero. There is no replacement of the
+extremal function with an unproved approximation or an assumed maximizer.
+
+Exact final target
+Statement795.Target asks for a real-valued error e, little-o of sqrt(n)/log(n)
+at infinity, with the upper inequality for every natural n. This is the standard
+error-function formulation of the question. The bridge chooses the signed
+excess g(n)-pi(n)-pi(Nat.sqrt n). The upstream theorem proves this very function
+is little-o. Substituting g_eq makes the required inequality an equality for
+every n. Values of log at zero or one cause no asymptotic issue, and no finite
+exceptions are silently discarded. The outer True iff Target corresponds to
+the solved affirmative answer convention. No additional mathematical
+hypotheses appear in this endpoint.
+
+The upstream theorem Erdos795.erdos_795 independently presents the equivalent
+positive-epsilon/eventually upper bound. The file also proves the primes and
+prime squares construction and baseline pi(n)+pi(Nat.sqrt n) <= g(n), for all n.
+Its factorization argument distinguishes the exponent choices 0,1,2,3 for each
+prime, correctly allowing both p and p^2 in the construction.
+
+Limits of the claim
+Raghavan v2 Theorem 1.3 gives the stronger error O(n^(5/12)), without an o(1)
+in the exponent. The website quotes an older/weaker error presentation.
+This verification establishes the original main little-o question and the
+prime/prime-square baseline. It does not establish the sharper 5/12 error,
+the pi(n^(1/3))/3-O(1) improvement, the resulting disproof of the stronger
+Erdős series speculation, or the paper's squarefree variants. No claim that
+the entire paper is formalized follows from these endpoints.
+
+Verification separation
+This audit inspected the primary statement, upstream definitions and terminal
+theorems, and the complete short Statement795/Bridge795 files. The independent
+API checks passed Lean 4.33.0; the exact repository shared module also passed
+Lean 4.33.1. The construction agent reports successful upstream and bridge
+compilation with only propext, Classical.choice, and Quot.sound. Parent full
+verification logs are the authority for the final reproduction run; this
+audit does not represent a second independent compilation of all 6678 source
+lines. No lexical proof holes, explicit axioms, native_decide, or unsafe
+declarations were found in the inspected upstream source.
+
+Attribution and publication
+Informal mathematics: Paul Erdős and Rushil Raghavan. Upstream formal authors
+are credited as Codex and GPT-5.6 Sol (with an additional OpenAI Codex header).
+No root license grant was found at the pinned upstream commit; this review
+does not supply or infer such a grant. Cite the pinned source and retain its
+attribution. Supporting PR #7615 concerns only the shared API and the
+definitionally equivalent problem-350 refactor. Existing PR #6338 already
+contains the problem-795 main statement; no duplicate statement submission
+is needed to describe this verification.

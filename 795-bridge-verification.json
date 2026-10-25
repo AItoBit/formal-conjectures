@@ -1,0 +1,61 @@
+{
+  "cwd": "C:\\Users\\Asus\\Documents\\Codex\\2026-10-24\\https-www-erdosproblems-com-forum-thread-2\\work",
+  "lean": "lean-runtime-783/extracted/lean-4.33.0-windows/bin/lean.exe",
+  "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "source_sha256": {
+    "DistinctSubsetProducts.lean": "527cd0bb267daf3067a3937e5878e11dfecc8272814ba3ff072efa5d391e7089",
+    "Statement795.lean": "f93f224789fe6ea08181f98229b82af167289fa5896ba851659bac3dde545f6e",
+    "Bridge795.lean": "3ea9bd8e7f776482d8063746b51af5887c7140bb0656add96cf6720c576e0354",
+    "AuditBridge795.lean": "aff51662553c44a60fe31c303bfdd31a1ab3bad44c2ce2d5d662281a7f5ee524"
+  },
+  "commands": [
+    [
+      "lean",
+      "-o",
+      "DistinctSubsetProducts.olean",
+      "DistinctSubsetProducts.lean"
+    ],
+    [
+      "lean",
+      "-o",
+      "Statement795.olean",
+      "Statement795.lean"
+    ],
+    [
+      "lean",
+      "-o",
+      "Bridge795.olean",
+      "Bridge795.lean"
+    ],
+    [
+      "lean",
+      "AuditBridge795.lean"
+    ]
+  ],
+  "logs": [
+    "distinct-subset-products-recheck.log",
+    "statement795-recheck.log",
+    "bridge795-check.log",
+    "audit-bridge795-check.log"
+  ],
+  "status": "All four sequential checks passed without warnings after the Bridge795 empty-witness elaboration repair.",
+  "bridge_repair": "Use Erdos795.empty_distinctSubsetProducts directly; rewrite did not unfold the upstream predicate.",
+  "audited_theorems": [
+    "Erdos795Statement.distinctSubsetProducts_iff",
+    "Erdos795Statement.g_eq",
+    "Erdos795Statement.erdos_795",
+    "Erdos795Statement.baseline"
+  ],
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "comparison_target": "https://github.com/google-deepmind/formal-conjectures/pull/6338",
+  "fidelity": [
+    "The existing PR uses an InjOn predicate; Statement795 uses the shared finite predicate. Their exact equivalence is proved by distinctSubsetProducts_iff.",
+    "g_eq identifies the natural sSup maximum with the source finite powerset supremum for all n, including zero.",
+    "The target has the same existential real error function, little-o scale sqrt(n)/log(n), Nat.primeCounting and Nat.sqrt cutoffs, and universal all-n inequality.",
+    "The bridge does not claim the stronger exponent5/12 or cube-root lower-bound variants."
+  ]
+}

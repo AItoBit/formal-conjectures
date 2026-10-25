@@ -1,0 +1,6 @@
+✔ [2070/2077] Built DistinctSubsetProducts (9.0s)
+✔ [2072/2077] Built Statement795 (15s)
+ℹ [2074/2077] Built Erdos795 (64s)
+info: Erdos795.lean:6678:0: 'Erdos795.erdos_795' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [2076/2077] Built Bridge795 (10s)
+Build completed successfully (2077 jobs).

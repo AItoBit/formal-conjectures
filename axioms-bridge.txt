@@ -1,0 +1,4 @@
+'Erdos795Statement.distinctSubsetProducts_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795Statement.g_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795Statement.erdos_795' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Erdos795Statement.baseline' depends on axioms: [propext, Classical.choice, Quot.sound]

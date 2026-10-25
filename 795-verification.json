@@ -1,0 +1,30 @@
+{
+  "source_repository": "https://github.com/plby/lean-proofs",
+  "source_commit": "8822f7ddef30fadbd92e1c6ab4ed897af356af5e",
+  "source_path": "src/latest/ErdosProblems/Erdos795.lean",
+  "source_blob": "b5d6fe52667f8bc6f8bc54b63915a0b1c4a9774d",
+  "source_sha256": "c80f70e965bc3f1874da9b308be6780a1584e24f636fd1e1efefa4f55ca4b1d4",
+  "source_lines": 6678,
+  "lean_version": "Lean (version 4.33.0, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)",
+  "mathlib_commit": "db584cd6d46c92f209a44c0f1c829460d327499d",
+  "checked_main": "Erdos795.erdos_795",
+  "checked_other": [
+    "Erdos795.erdos_795_signed_error_isLittleO",
+    "Erdos795.baseline_le_g",
+    "Erdos795.primeAndSquareSet_distinctSubsetProducts"
+  ],
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "source_compile_log": "erdos795-reproduction.log",
+  "import_audit_log": "audit795-check.log",
+  "stronger_claims_not_checked": [
+    "Raghavan error exponent5/12",
+    "cube-root lower correction",
+    "stronger series conjecture disproof"
+  ],
+  "license_status": "No root license found in pinned repository. Do not republish full source without identifying permission; cite pinned upstream file.",
+  "compiled_olean_sha256": "e23ab95eb6d947f7a3f2542d456ed87cbcb5e94837cbe477d5e100adec46c2f0"
+}
