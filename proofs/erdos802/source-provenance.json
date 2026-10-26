@@ -1,0 +1,365 @@
+{
+  "repository": "https://github.com/OpenAI/math",
+  "commit": "1581d4cbdd69a0faf34b2089614fe2a814316a6a",
+  "license": "Apache-2.0",
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "topological_order": [
+    "OAI.Combinatorics.CliqueFree.Model",
+    "OAI.Combinatorics.CliqueFree.Numerical",
+    "OAI.Combinatorics.CliqueFree.WeightedGraph",
+    "OAI.Combinatorics.CliqueFree.Optimizer",
+    "OAI.Combinatorics.CliqueFree.OptimizerBounds",
+    "OAI.Combinatorics.CliqueFree.Lottery",
+    "OAI.Combinatorics.CliqueFree.MultiplierLaw",
+    "OAI.Combinatorics.CliqueFree.Deletion",
+    "OAI.Combinatorics.CliqueFree.FiniteEntropy",
+    "OAI.Combinatorics.CliqueFree.EdgeState",
+    "OAI.Combinatorics.CliqueFree.Packing",
+    "OAI.Combinatorics.CliqueFree.SparseMultipliers",
+    "OAI.Combinatorics.CliqueFree.VariationalCross",
+    "OAI.Combinatorics.CliqueFree.DisjointCross",
+    "OAI.Combinatorics.CliqueFree.CrossBound",
+    "OAI.Combinatorics.CliqueFree.TriangleState",
+    "OAI.Combinatorics.CliqueFree.Projection",
+    "OAI.Combinatorics.CliqueFree.Splitting",
+    "OAI.Combinatorics.CliqueFree.Reach",
+    "OAI.Combinatorics.CliqueFree.FiniteKernel",
+    "OAI.Combinatorics.CliqueFree.LocalWalk",
+    "OAI.Combinatorics.CliqueFree.WalkEntropy",
+    "OAI.Combinatorics.CliqueFree.WalkCoupling",
+    "OAI.Combinatorics.CliqueFree.FiniteCoupling",
+    "OAI.Combinatorics.CliqueFree.SplittingLoss",
+    "OAI.Combinatorics.CliqueFree.VertexSplitting",
+    "OAI.Combinatorics.CliqueFree.Peeling",
+    "OAI.Combinatorics.CliqueFree.TriangleBound",
+    "OAI.Combinatorics.CliqueFree.IndependentSet",
+    "OAI.Combinatorics.CliqueFree.MaxDegree",
+    "OAI.Combinatorics.CliqueFree.Main"
+  ],
+  "sources": [
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Main",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Main.lean",
+      "sha256": "6d5bc17478c824c2f8a4ef87e6618a234d651238c33843ab0fbdf2a7ba6a3745",
+      "git_blob": "8f1a47dcf0c0ca1f0087f813640ab3b47f3f2848",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.MaxDegree"
+      ],
+      "lines": 88
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.MaxDegree",
+      "path": "lean/OAI/Combinatorics/CliqueFree/MaxDegree.lean",
+      "sha256": "9ed3feb7783c0aa7cfa680939ca7b04b3e6b2ea71ae57c5ae161d11f5c7ae9fa",
+      "git_blob": "b0a0fe89f67302474c6c55e9bfd2df7dfd7ffcce",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.IndependentSet"
+      ],
+      "lines": 116
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.IndependentSet",
+      "path": "lean/OAI/Combinatorics/CliqueFree/IndependentSet.lean",
+      "sha256": "244e1f880ce673975c5acdcc68d7bff1e53a5a0047780e2a54f3fbceaa1a4488",
+      "git_blob": "4d6cb5dc1778201978cb49234b591a6c419e4a51",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Deletion",
+        "OAI.Combinatorics.CliqueFree.CrossBound",
+        "OAI.Combinatorics.CliqueFree.TriangleBound"
+      ],
+      "lines": 173
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Deletion",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Deletion.lean",
+      "sha256": "9220cd0ed7bf01ed251c81c28b0bb26b85fb508c0019992392e824a6a799d941",
+      "git_blob": "c031d98df5cd051d4dc9c23f71e23253ddada78a",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.OptimizerBounds",
+        "OAI.Combinatorics.CliqueFree.MultiplierLaw"
+      ],
+      "lines": 118
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.OptimizerBounds",
+      "path": "lean/OAI/Combinatorics/CliqueFree/OptimizerBounds.lean",
+      "sha256": "a3f44ae0b7585bfd8c86f00db529172cc306a8c774f3d98a470293102ff509aa",
+      "git_blob": "6e38028e3cf66b2f0d6b4197cf5c757a0324b559",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Optimizer"
+      ],
+      "lines": 118
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Optimizer",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Optimizer.lean",
+      "sha256": "66ae5fbcbd8ad96bdb63c59165c6b7a1b39450241ec7599e76ba45e1f2f890e2",
+      "git_blob": "9edd8e341fe2eac7a35ac74625db1d68e03c723e",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.WeightedGraph"
+      ],
+      "lines": 250
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.WeightedGraph",
+      "path": "lean/OAI/Combinatorics/CliqueFree/WeightedGraph.lean",
+      "sha256": "511dabbf4796ce92e2010300817b71d63c3803dda0bd924ff74c4b897e253576",
+      "git_blob": "908670dc75c63b23c590269a6c51ac9cbc4eb57c",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Numerical"
+      ],
+      "lines": 204
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Numerical",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Numerical.lean",
+      "sha256": "69f6cb11e82bed718a7aca87e1a0a4d9eb1fa7691010314caaa18e83d2ee3193",
+      "git_blob": "7c3e2b0e146d7e024c572887a399cb8e7cae7c5e",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Model"
+      ],
+      "lines": 202
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Model",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Model.lean",
+      "sha256": "3b5c250c7eb12764ce13c340ae0c0c1841eab51d15b004d54dd353d249a1785a",
+      "git_blob": "595268e60f828c53360aefb3f65b6dd36b703c1b",
+      "imports": [
+        "Mathlib"
+      ],
+      "lines": 13
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.MultiplierLaw",
+      "path": "lean/OAI/Combinatorics/CliqueFree/MultiplierLaw.lean",
+      "sha256": "f7143666a8f8db0c2a48c85d8abac2eda799889d11197f811e30ae90c6112087",
+      "git_blob": "a2afb0b153488881e2f51c4fe313f10945906d11",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Lottery",
+        "OAI.Combinatorics.CliqueFree.Optimizer"
+      ],
+      "lines": 144
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Lottery",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Lottery.lean",
+      "sha256": "1c2e7e5cc268588f694ee4ca44411a0a5d6685a0f027f43e67da317a3cf23bf9",
+      "git_blob": "6e620a051899635854f9b6a5ec0358b5d33cb208",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Model"
+      ],
+      "lines": 106
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.CrossBound",
+      "path": "lean/OAI/Combinatorics/CliqueFree/CrossBound.lean",
+      "sha256": "b37d6f1e06f0e704064f34cbecc6a7dc6c7a911493a29cb6bd6cf5843db85421",
+      "git_blob": "e0de77db84bdb26b40006773167b95f102bb00a3",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.DisjointCross"
+      ],
+      "lines": 129
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.DisjointCross",
+      "path": "lean/OAI/Combinatorics/CliqueFree/DisjointCross.lean",
+      "sha256": "139f334f834554c1497f2cac04ec3ed0cf2cc69a32d63441fea014138671e9ff",
+      "git_blob": "9eafc2f72a5da781d03a99a00bad78be280f061d",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.EdgeState",
+        "OAI.Combinatorics.CliqueFree.VariationalCross"
+      ],
+      "lines": 157
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.EdgeState",
+      "path": "lean/OAI/Combinatorics/CliqueFree/EdgeState.lean",
+      "sha256": "15ccce8a76c218d098ab7ffe6e22edf79f2fb55d71a648b22736256d309f0ce2",
+      "git_blob": "379b10aff31762575b2602ba4510312486d13cc3",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.FiniteEntropy",
+        "OAI.Combinatorics.CliqueFree.WeightedGraph"
+      ],
+      "lines": 142
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.FiniteEntropy",
+      "path": "lean/OAI/Combinatorics/CliqueFree/FiniteEntropy.lean",
+      "sha256": "1c701e5a0344b102f4d42ffe04e674d1270504fe76e84abe645bba00b83f32aa",
+      "git_blob": "1e8162528b4e2d4ca6af02274dd67c5c27b4234b",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Model"
+      ],
+      "lines": 365
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.VariationalCross",
+      "path": "lean/OAI/Combinatorics/CliqueFree/VariationalCross.lean",
+      "sha256": "9e99bdcc6edb06ac979b89e281d5d7860fffdcc4699beba058a1597cc5ae74f4",
+      "git_blob": "0c7a9f0cd3b30d6ce6593486cadfd00d8f077342",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Optimizer",
+        "OAI.Combinatorics.CliqueFree.SparseMultipliers"
+      ],
+      "lines": 174
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.SparseMultipliers",
+      "path": "lean/OAI/Combinatorics/CliqueFree/SparseMultipliers.lean",
+      "sha256": "87f0668469a186a0147fd0f66ab235f6e7b7beab5a39e3955eabb225f87a3f7e",
+      "git_blob": "a559cafb38ab9dae827dcb316f6b6e948b2b7014",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Packing"
+      ],
+      "lines": 140
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Packing",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Packing.lean",
+      "sha256": "9880d820ca7905c3f5cc12c36430a5c1bb277b6fb6e1a92167987e2d96e1658c",
+      "git_blob": "e8777d19afcdfd2c619ef4377fadbb8bdedb3d4d",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.MultiplierLaw"
+      ],
+      "lines": 134
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.TriangleBound",
+      "path": "lean/OAI/Combinatorics/CliqueFree/TriangleBound.lean",
+      "sha256": "8d6a7150b2ca94156ec044894e2ba8eba5f1ae25dc6db541c38a8ad152d7c577",
+      "git_blob": "a3187bf9012f04013c7fed818f4ed677e42ef823",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.VertexSplitting",
+        "OAI.Combinatorics.CliqueFree.Peeling"
+      ],
+      "lines": 167
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.VertexSplitting",
+      "path": "lean/OAI/Combinatorics/CliqueFree/VertexSplitting.lean",
+      "sha256": "614651feaff709931daaf67a9167a33b7c770403bf108eee63c7c4c78c5d4f0c",
+      "git_blob": "977d37895a89cf944590e54f331fcad389c68d33",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.SplittingLoss"
+      ],
+      "lines": 92
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.SplittingLoss",
+      "path": "lean/OAI/Combinatorics/CliqueFree/SplittingLoss.lean",
+      "sha256": "9628fadb1de377ceefa16dd1db400f29bce00ca28f73f19bd2d3f9dd9b4b1ab0",
+      "git_blob": "4dd136640a6f221d8ba4b08fe22c5b53b184da30",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Splitting",
+        "OAI.Combinatorics.CliqueFree.WalkCoupling",
+        "OAI.Combinatorics.CliqueFree.FiniteCoupling"
+      ],
+      "lines": 227
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Splitting",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Splitting.lean",
+      "sha256": "7ef785188f4f8cb9b05713278a0eeb8dddbd83432fab8f8fddd454379ed94853",
+      "git_blob": "d7e9ee5f5f810375e3c04ebcc93c496aca06120c",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Projection"
+      ],
+      "lines": 148
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Projection",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Projection.lean",
+      "sha256": "b0c39615a02afa5f22e329e4aedb061ca2362bcd7d2c1efbd74b5981301e0dee",
+      "git_blob": "448a21cfa0c7ce11b2b85598fcf9256f2bb65e8b",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.TriangleState"
+      ],
+      "lines": 143
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.TriangleState",
+      "path": "lean/OAI/Combinatorics/CliqueFree/TriangleState.lean",
+      "sha256": "46858e735afc6849bce0f0ad58ef3098a36d62e70d4b9f98ceaa5a1eefdf4697",
+      "git_blob": "4424f9096b5ca2891649b9cf7838e5072a593ba4",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.EdgeState"
+      ],
+      "lines": 195
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.WalkCoupling",
+      "path": "lean/OAI/Combinatorics/CliqueFree/WalkCoupling.lean",
+      "sha256": "1ea99afd8289db4880eb2a5761030e2e5a1dfd3e10c94e1042ac23553bf1dd36",
+      "git_blob": "32f93003e65da245d25e49969f2440607676cf8f",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.WalkEntropy",
+        "OAI.Combinatorics.CliqueFree.TriangleState"
+      ],
+      "lines": 57
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.WalkEntropy",
+      "path": "lean/OAI/Combinatorics/CliqueFree/WalkEntropy.lean",
+      "sha256": "a8d6066acd46ded5b1709321800dfa23315daddca60dde0087ea18324697fbf3",
+      "git_blob": "68a59237ad331eef29b94686d865f99c7102f103",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.LocalWalk"
+      ],
+      "lines": 386
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.LocalWalk",
+      "path": "lean/OAI/Combinatorics/CliqueFree/LocalWalk.lean",
+      "sha256": "2e265da4d33979de1b731792f01b37ea133cfc433ccef642a06ab783b2dbe921",
+      "git_blob": "83918f6fb0a013c736c68633c8936b826dd88e76",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Reach",
+        "OAI.Combinatorics.CliqueFree.FiniteKernel"
+      ],
+      "lines": 161
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Reach",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Reach.lean",
+      "sha256": "296039d5899235daa644077c8d39bbe5104e714266bf7e4c48cad6015a74330a",
+      "git_blob": "437a1bfe61ce68984fb7e1fb64db887c4560e3a6",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.EdgeState"
+      ],
+      "lines": 222
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.FiniteKernel",
+      "path": "lean/OAI/Combinatorics/CliqueFree/FiniteKernel.lean",
+      "sha256": "eb5b53acc4f4b9eb4cb8495a3a89d8f958e3f100bc9f15a37a7f326fbbdf4a95",
+      "git_blob": "e26acd278f3344650559156f758b4d868656c481",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.FiniteEntropy"
+      ],
+      "lines": 419
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.FiniteCoupling",
+      "path": "lean/OAI/Combinatorics/CliqueFree/FiniteCoupling.lean",
+      "sha256": "329289df3af2e190f6c7326c3ea7ab07ea954bc6c20cc950c1d580a68ab1fdee",
+      "git_blob": "4b0d5626b2680fa7ac2d97bb99ef73445c4747b9",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Model"
+      ],
+      "lines": 386
+    },
+    {
+      "module": "OAI.Combinatorics.CliqueFree.Peeling",
+      "path": "lean/OAI/Combinatorics/CliqueFree/Peeling.lean",
+      "sha256": "871a4969317daa5eca59fbf08ac803e9b6da4e8e958771c6604b11b3c95471b1",
+      "git_blob": "eef7da52959a5df813204319b76a5b2dfc424e01",
+      "imports": [
+        "OAI.Combinatorics.CliqueFree.Projection",
+        "OAI.Combinatorics.CliqueFree.FiniteCoupling"
+      ],
+      "lines": 163
+    }
+  ]
+}
